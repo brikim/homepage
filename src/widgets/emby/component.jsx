@@ -1,5 +1,6 @@
 import { useTranslation } from "next-i18next";
-import { BsVolumeMuteFill, BsFillPlayFill, BsPauseFill, BsCpu, BsFillCpuFill } from "react-icons/bs";
+import { BsVolumeMuteFill, BsFillPlayFill, BsPauseFill } from "react-icons/bs";
+import { PiCpu, PiCpuFill } from "react-icons/pi";
 import { MdOutlineSmartDisplay } from "react-icons/md";
 
 import Block from "components/services/widget/block";
@@ -17,14 +18,18 @@ function ticksToTime(ticks) {
 
 function ticksToString(ticks) {
   const { hours, minutes, seconds } = ticksToTime(ticks);
-  const parts = [];
+  let timeVal = "";
   if (hours > 0) {
-    parts.push(hours);
+    timeVal = hours.toString();
+    timeVal += ":";
+    timeVal += minutes.toString().padStart(2, "0");
   }
-  parts.push(minutes);
-  parts.push(seconds);
-
-  return parts.map((part) => part.toString().padStart(2, "0")).join(":");
+  else {
+    timeVal += minutes.toString();
+  }
+  timeVal += ":";
+  timeVal += seconds.toString().padStart(2, "0");
+  return timeVal;
 }
 
 function SingleSessionEntry({ playCommand, session, enableUser }) {
@@ -37,11 +42,30 @@ function SingleSessionEntry({ playCommand, session, enableUser }) {
   const RunTimeTicks =
     session.NowPlayingItem?.RunTimeTicks ?? session.NowPlayingItem?.CurrentProgram?.RunTimeTicks ?? 0;
 
-  const { IsVideoDirect, VideoDecoderIsHardware, VideoEncoderIsHardware } = session?.TranscodingInfo || {
+  const { IsVideoDirect, IsAudioDirect, VideoDecoderIsHardware, VideoEncoderIsHardware } = session?.TranscodingInfo || {
     IsVideoDirect: true,
   }; // if no transcodinginfo its videodirect
 
   const percent = Math.min(1, PositionTicks / RunTimeTicks) * 100;
+
+  let iconType = "play";
+  // Jellyfin does not support VideoDecoderIsHardware or VideoEncoderIsHardware
+  if (typeof VideoDecoderIsHardware === 'undefined') {
+    if (!IsVideoDirect && !IsAudioDirect) {
+      iconType = "cpuFilled";
+    }
+    else {
+      iconType = "cpu";
+    }
+  }
+  else if (!IsVideoDirect || !IsAudioDirect) {
+    if (IsAudioDirect || (VideoDecoderIsHardware && VideoEncoderIsHardware)) {
+      iconType = "cpu";
+    }
+    else {
+      iconType = "cpuFilled";
+    }
+  }
 
   return (
     <>
@@ -53,18 +77,16 @@ function SingleSessionEntry({ playCommand, session, enableUser }) {
             {enableUser && ` (${UserName})`}
           </div>
         </div>
-        <div className="self-center text-xs flex justify-end mr-1.5 pl-1">
-          {IsVideoDirect && <MdOutlineSmartDisplay className="opacity-50" />}
-          {!IsVideoDirect && (!VideoDecoderIsHardware || !VideoEncoderIsHardware) && <BsCpu className="opacity-50" />}
-          {!IsVideoDirect && VideoDecoderIsHardware && VideoEncoderIsHardware && (
-            <BsFillCpuFill className="opacity-50" />
-          )}
+        <div className="self-center text-lg flex justify-end pl-0.5">
+          {(iconType === "play") && <MdOutlineSmartDisplay className="opacity-55" />}
+          {(iconType === "cpu") && <PiCpu className="opacity-55" />}
+          {(iconType === "cpuFilled") && <PiCpuFill className="opacity-55" />}
         </div>
       </div>
 
       <div className="text-theme-700 dark:text-theme-200 relative h-5 w-full rounded-md bg-theme-200/50 dark:bg-theme-900/20 mt-1 flex">
         <div
-          className="absolute h-5 rounded-md bg-theme-200 dark:bg-theme-900/40 z-0"
+          className="absolute h-5 rounded-md bg-theme-200 dark:bg-theme-900/55 z-0"
           style={{
             width: `${percent}%`,
           }}
@@ -109,16 +131,35 @@ function SessionEntry({ playCommand, session, enableUser }) {
   const RunTimeTicks =
     session.NowPlayingItem?.RunTimeTicks ?? session.NowPlayingItem?.CurrentProgram?.RunTimeTicks ?? 0;
 
-  const { IsVideoDirect, VideoDecoderIsHardware, VideoEncoderIsHardware } = session?.TranscodingInfo || {
+  const { IsVideoDirect, IsAudioDirect, VideoDecoderIsHardware, VideoEncoderIsHardware } = session?.TranscodingInfo || {
     IsVideoDirect: true,
   }; // if no transcodinginfo its videodirect
 
   const percent = Math.min(1, PositionTicks / RunTimeTicks) * 100;
 
+  let iconType = "play";
+  // Jellyfin does not support VideoDecoderIsHardware or VideoEncoderIsHardware
+  if (typeof VideoDecoderIsHardware === 'undefined') {
+    if (!IsVideoDirect && !IsAudioDirect) {
+      iconType = "cpuFilled";
+    }
+    else {
+      iconType = "cpu";
+    }
+  }
+  else if (!IsVideoDirect || !IsAudioDirect) {
+    if (IsAudioDirect || (VideoDecoderIsHardware && VideoEncoderIsHardware)) {
+      iconType = "cpu";
+    }
+    else {
+      iconType = "cpuFilled";
+    }
+  }
+
   return (
     <div className="text-theme-700 dark:text-theme-200 relative h-5 w-full rounded-md bg-theme-200/50 dark:bg-theme-900/20 mt-1 flex">
       <div
-        className="absolute h-5 rounded-md bg-theme-200 dark:bg-theme-900/40 z-0"
+        className="absolute h-5 rounded-md bg-theme-200 dark:bg-theme-900/55 z-0"
         style={{
           width: `${percent}%`,
         }}
@@ -148,12 +189,12 @@ function SessionEntry({ playCommand, session, enableUser }) {
           {enableUser && ` (${UserName})`}
         </div>
       </div>
-      <div className="self-center text-xs flex justify-end mr-1 z-10">{IsMuted && <BsVolumeMuteFill />}</div>
-      <div className="self-center text-xs flex justify-end mr-1 z-10">{ticksToString(PositionTicks)}</div>
-      <div className="self-center items-center text-xs flex justify-end mr-1.5 pl-1 z-10">
-        {IsVideoDirect && <MdOutlineSmartDisplay className="opacity-50" />}
-        {!IsVideoDirect && (!VideoDecoderIsHardware || !VideoEncoderIsHardware) && <BsCpu className="opacity-50" />}
-        {!IsVideoDirect && VideoDecoderIsHardware && VideoEncoderIsHardware && <BsFillCpuFill className="opacity-50" />}
+      <div className="self-center text-xs flex justify-end pl-0.5 z-10">{IsMuted && <BsVolumeMuteFill />}</div>
+      <div className="self-center text-xs flex justify-end pl-0.5 z-10">{ticksToString(PositionTicks)}</div>
+      <div className="self-center text-lg flex justify-end pl-0.5 z-10">
+        {(iconType === "play") && <MdOutlineSmartDisplay className="opacity-55" />}
+        {(iconType === "cpu") && <PiCpu className="opacity-55" />}
+        {(iconType === "cpuFilled") && <PiCpuFill className="opacity-55" />}
       </div>
     </div>
   );
@@ -191,12 +232,13 @@ export default function Component({ service }) {
 
   const { widget } = service;
 
+  const { refreshInterval = 5000 } = widget;
   const {
     data: sessionsData,
     error: sessionsError,
     mutate: sessionMutate,
   } = useWidgetAPI(widget, "Sessions", {
-    refreshInterval: 5000,
+    refreshInterval: Math.max(1000, refreshInterval),
   });
 
   const { data: countData, error: countError } = useWidgetAPI(widget, "Count", {

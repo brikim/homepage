@@ -15,9 +15,16 @@ export default function Component({ service }) {
   const { t } = useTranslation();
   const { widget } = service;
 
-  const { data: moviesData, error: moviesError } = useWidgetAPI(widget, "movie");
-  const { data: queuedData, error: queuedError } = useWidgetAPI(widget, "queue/status");
-  const { data: queueDetailsData, error: queueDetailsError } = useWidgetAPI(widget, "queue/details");
+  const { refreshInterval = 30000 } = widget;
+  const { data: moviesData, error: moviesError } = useWidgetAPI(widget, "movie", {
+    refreshInterval: 60000,
+  });
+  const { data: queuedData, error: queuedError } = useWidgetAPI(widget, "queue/status", {
+    refreshInterval: 60000,
+  });
+  const { data: queueDetailsData, error: queueDetailsError } = useWidgetAPI(widget, "queue/details", {
+    refreshInterval: Math.max(30000, refreshInterval),
+  });
 
   const formatDownloadState = useCallback((downloadState) => {
     switch (downloadState) {

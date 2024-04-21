@@ -5,7 +5,7 @@ import { useTranslation } from "next-i18next";
 import Resource from "../widget/resource";
 import Error from "../widget/error";
 
-export default function Disk({ options, expanded, diskUnits, refresh = 1500 }) {
+export default function Disk({ options, expanded, diskUnits, refresh = 1500, used = false }) {
   const { t } = useTranslation();
   const diskUnitsName = diskUnits === "bbytes" ? "common.bbytes" : "common.bytes";
 
@@ -37,7 +37,7 @@ export default function Disk({ options, expanded, diskUnits, refresh = 1500 }) {
   return (
     <Resource
       icon={FiHardDrive}
-      value={t(diskUnitsName, { value: data.drive.available })}
+      value={t(diskUnitsName, { value: used ? (data.drive.size - data.drive.available) : data.drive.available })}
       label={t("resources.free")}
       expandedValue={t(diskUnitsName, { value: data.drive.size })}
       expandedLabel={t("resources.total")}

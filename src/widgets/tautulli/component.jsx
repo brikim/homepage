@@ -1,60 +1,42 @@
 /* eslint-disable camelcase */
 import { useTranslation } from "next-i18next";
-import { BsFillPlayFill, BsPauseFill, BsCpu, BsFillCpuFill } from "react-icons/bs";
-import { MdOutlineSmartDisplay, MdSmartDisplay } from "react-icons/md";
+import { BsFillPlayFill, BsPauseFill } from "react-icons/bs";
 
 import Container from "components/services/widget/container";
 import useWidgetAPI from "utils/proxy/use-widget-api";
+import PlatformIcon from "utils/media/platformIcon";
+import PlayStatusIcon from "utils/media/playStatusIcon";
+import MillisecondsToString from "utils/media/timeToString"
 
-function millisecondsToTime(milliseconds) {
-  const seconds = Math.floor((milliseconds / 1000) % 60);
-  const minutes = Math.floor((milliseconds / (1000 * 60)) % 60);
-  const hours = Math.floor((milliseconds / (1000 * 60 * 60)) % 24);
-  return { hours, minutes, seconds };
-}
+function SingleSessionEntry({ session, enableUser}) {
+  const { full_title, duration, view_offset, progress_percent, state, video_decision, audio_decision, transcode_max_offset_available, friendly_name, platform } = session;
 
-function millisecondsToString(milliseconds) {
-  const { hours, minutes, seconds } = millisecondsToTime(milliseconds);
-  const parts = [];
-  if (hours > 0) {
-    parts.push(hours);
+  let transcodeProgress = Number(progress_percent);
+  if (video_decision === "transcode" || audio_decision === "transcode") {
+    transcodeProgress = Math.round((Number(transcode_max_offset_available) * 1000) / Number(duration) * 100);
   }
-  parts.push(minutes);
-  parts.push(seconds);
-
-  return parts.map((part) => part.toString().padStart(2, "0")).join(":");
-}
-
-function SingleSessionEntry({ session, enableUser }) {
-  const { full_title, duration, view_offset, progress_percent, state, video_decision, audio_decision, friendly_name } =
-    session;
 
   return (
     <>
       <div className="text-theme-700 dark:text-theme-200 relative h-5 w-full rounded-md bg-theme-200/50 dark:bg-theme-900/20 mt-1 flex">
-        <div className="text-xs z-10 self-center ml-2 relative w-full h-4 grow mr-2">
-          <div className="absolute w-full whitespace-nowrap text-ellipsis overflow-hidden">
+        <PlatformIcon platform={platform.toLowerCase()} opacity="opacity-60"/>
+        <div className="text-xs z-10 self-center ml-1 relative w-full h-4 grow mr-2">
+          <div className="inline-flex absolute w-full whitespace-nowrap text-ellipsis overflow-hidden">
             {full_title}
             {enableUser && ` (${friendly_name})`}
           </div>
         </div>
-        <div className="self-center text-xs flex justify-end mr-1.5 pl-1">
-          {video_decision === "direct play" && audio_decision === "direct play" && (
-            <MdSmartDisplay className="opacity-50" />
-          )}
-          {video_decision === "copy" && audio_decision === "copy" && <MdOutlineSmartDisplay className="opacity-50" />}
-          {video_decision !== "copy" &&
-            video_decision !== "direct play" &&
-            (audio_decision !== "copy" || audio_decision !== "direct play") && <BsFillCpuFill className="opacity-50" />}
-          {(video_decision === "copy" || video_decision === "direct play") &&
-            audio_decision !== "copy" &&
-            audio_decision !== "direct play" && <BsCpu className="opacity-50" />}
-        </div>
+        <PlayStatusIcon videoDecision={video_decision} audioDecision={audio_decision} opacity="opacity-60"/>
       </div>
 
       <div className="text-theme-700 dark:text-theme-200 relative h-5 w-full rounded-md bg-theme-200/50 dark:bg-theme-900/20 mt-1 flex">
+        <div className="absolute h-5 rounded-md bg-theme-200 dark:bg-theme-900/25 z-0"
+          style={{
+            width: `${transcodeProgress}%`,
+          }}
+        />
         <div
-          className="absolute h-5 rounded-md bg-theme-200 dark:bg-theme-900/40 z-0"
+          className="absolute h-5 rounded-md bg-theme-200 dark:bg-theme-900/50 z-0"
           style={{
             width: `${progress_percent}%`,
           }}
@@ -68,10 +50,10 @@ function SingleSessionEntry({ session, enableUser }) {
           )}
         </div>
         <div className="grow " />
-        <div className="self-center text-xs flex justify-end mr-2 z-10">
-          {millisecondsToString(view_offset)}
+        <div className="self-center text-xs flex justify-end mr-1 z-10">
+          {MillisecondsToString(view_offset)}
           <span className="mx-0.5 text-[8px]">/</span>
-          {millisecondsToString(duration)}
+          {MillisecondsToString(duration)}
         </div>
       </div>
     </>
@@ -79,43 +61,43 @@ function SingleSessionEntry({ session, enableUser }) {
 }
 
 function SessionEntry({ session, enableUser }) {
-  const { full_title, view_offset, progress_percent, state, video_decision, audio_decision, friendly_name } = session;
+  const { full_title, duration, view_offset, progress_percent, state, video_decision, audio_decision, transcode_max_offset_available, friendly_name, platform } = session;
+
+  let transcodeProgress = Number(progress_percent);
+  if (video_decision === "transcode" || audio_decision === "transcode") {
+    transcodeProgress = Math.round((Number(transcode_max_offset_available) * 1000) / Number(duration) * 100);
+  }
 
   return (
     <div className="text-theme-700 dark:text-theme-200 relative h-5 w-full rounded-md bg-theme-200/50 dark:bg-theme-900/20 mt-1 flex">
+      <div className="absolute h-5 rounded-md bg-theme-200 dark:bg-theme-900/25 z-0"
+          style={{
+            width: `${transcodeProgress}%`,
+          }}
+      />
       <div
-        className="absolute h-5 rounded-md bg-theme-200 dark:bg-theme-900/40 z-0"
+        className="absolute h-5 rounded-md bg-theme-200 dark:bg-theme-900/50 z-0"
         style={{
           width: `${progress_percent}%`,
         }}
       />
-      <div className="text-xs z-10 self-center ml-1">
+      <div className="text-xs w-4 z-10 self-center ml-1">
         {state === "paused" && (
-          <BsPauseFill className="inline-block w-4 h-4 cursor-pointer -mt-[1px] mr-1 opacity-80" />
+          <BsPauseFill className="inline-block w-4 h-4 cursor-pointer -mt-[1px] opacity-80" />
         )}
         {state !== "paused" && (
           <BsFillPlayFill className="inline-block w-4 h-4 cursor-pointer -mt-[1px] mr-1 opacity-80" />
         )}
       </div>
-      <div className="text-xs z-10 self-center ml-2 relative w-full h-4 grow mr-2">
+      <PlatformIcon platform={platform.toLowerCase()} opacity="opacity-60"/>
+      <div className="text-xs z-10 self-center ml-1 relative w-full h-4 grow mr-2">
         <div className="absolute w-full whitespace-nowrap text-ellipsis overflow-hidden">
           {full_title}
           {enableUser && ` (${friendly_name})`}
         </div>
       </div>
-      <div className="self-center text-xs flex justify-end mr-1.5 pl-1 z-10">
-        {video_decision === "direct play" && audio_decision === "direct play" && (
-          <MdSmartDisplay className="opacity-50" />
-        )}
-        {video_decision === "copy" && audio_decision === "copy" && <MdOutlineSmartDisplay className="opacity-50" />}
-        {video_decision !== "copy" &&
-          video_decision !== "direct play" &&
-          (audio_decision !== "copy" || audio_decision !== "direct play") && <BsFillCpuFill className="opacity-50" />}
-        {(video_decision === "copy" || video_decision === "direct play") &&
-          audio_decision !== "copy" &&
-          audio_decision !== "direct play" && <BsCpu className="opacity-50" />}
-      </div>
-      <div className="self-center text-xs flex justify-end mr-2 z-10">{millisecondsToString(view_offset)}</div>
+      <div className="self-center text-xs flex justify-end mr-1 pl-1 z-10">{MillisecondsToString(view_offset)}</div>
+      <PlayStatusIcon videoDecision={video_decision} audioDecision={audio_decision} opacity="opacity-60"/>
     </div>
   );
 }

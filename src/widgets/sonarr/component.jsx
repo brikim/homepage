@@ -25,10 +25,19 @@ export default function Component({ service }) {
   const { t } = useTranslation();
   const { widget } = service;
 
-  const { data: wantedData, error: wantedError } = useWidgetAPI(widget, "wanted/missing");
-  const { data: queuedData, error: queuedError } = useWidgetAPI(widget, "queue");
-  const { data: seriesData, error: seriesError } = useWidgetAPI(widget, "series");
-  const { data: queueDetailsData, error: queueDetailsError } = useWidgetAPI(widget, "queue/details");
+  const { refreshInterval = 30000 } = widget;
+  const { data: wantedData, error: wantedError } = useWidgetAPI(widget, "wanted/missing", {
+    refreshInterval: 60000,
+  });
+  const { data: queuedData, error: queuedError } = useWidgetAPI(widget, "queue", {
+    refreshInterval: 60000,
+  });
+  const { data: seriesData, error: seriesError } = useWidgetAPI(widget, "series", {
+    refreshInterval: 60000,
+  });
+  const { data: queueDetailsData, error: queueDetailsError } = useWidgetAPI(widget, "queue/details", {
+    refreshInterval: Math.max(30000, refreshInterval),
+  });
 
   const formatDownloadState = useCallback((downloadState) => {
     switch (downloadState) {

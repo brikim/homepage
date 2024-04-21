@@ -114,11 +114,11 @@ export default function Widget({ options }) {
         <Resource
           icon={FaMemory}
           value={t("common.bytes", {
-            value: data.mem.free,
+            value: options.used ? data.mem.used : data.mem.free,
             maximumFractionDigits: 1,
             binary: true,
           })}
-          label={t("glances.free")}
+          label={t(options.used ? "glances.used" : "glances.free")}
           expandedValue={t("common.bytes", {
             value: data.mem.total,
             maximumFractionDigits: 1,
@@ -133,8 +133,8 @@ export default function Widget({ options }) {
         <Resource
           key={`disk_${disk.mnt_point ?? disk.device_name}`}
           icon={FiHardDrive}
-          value={t(diskUnits, { value: disk.free })}
-          label={t("glances.free")}
+          value={t(diskUnits, { value: options.used ? disk.used : disk.free })}
+          label={t(options.used ? "glances.used" : "glances.free")}
           expandedValue={t(diskUnits, { value: disk.size })}
           expandedLabel={t("glances.total")}
           percentage={disk.percent}
@@ -167,7 +167,7 @@ export default function Widget({ options }) {
           icon={FaRegClock}
           value={data.uptime.replace(" days,", t("glances.days")).replace(/:\d\d:\d\d$/g, t("glances.hours"))}
           label={t("glances.uptime")}
-          percentage={Math.round((new Date().getSeconds() / 60) * 100).toString()}
+          percentage={Math.round((Number(data.uptime.slice(-5, -3)) / 60) * 100).toString()}
         />
       )}
       {options.label && <WidgetLabel label={options.label} />}

@@ -521,10 +521,21 @@ export function cleanServiceGroups(groups) {
           if (wan) cleanedService.widget.wan = wan;
         }
         if (["emby", "jellyfin"].includes(type)) {
+          if (refreshInterval) cleanedService.widget.refreshInterval = refreshInterval;
           if (enableBlocks !== undefined) cleanedService.widget.enableBlocks = JSON.parse(enableBlocks);
           if (enableNowPlaying !== undefined) cleanedService.widget.enableNowPlaying = JSON.parse(enableNowPlaying);
           if (enableUser !== undefined) {
             cleanedService.widget.enableUser = !!JSON.parse(enableUser);
+          }
+        }
+        if (["plex"].includes(type)) {
+          if (enableBlocks !== undefined) cleanedService.widget.enableBlocks = JSON.parse(enableBlocks);
+          if (enableNowPlaying !== undefined) cleanedService.widget.enableNowPlaying = JSON.parse(enableNowPlaying);
+          if (enableUser !== undefined) { 
+            cleanedService.widget.enableUser = JSON.parse(enableUser) 
+          } 
+          else { 
+            cleanedService.widget.enableUser = false 
           }
         }
         if (["tautulli"].includes(type)) {
@@ -537,6 +548,15 @@ export function cleanServiceGroups(groups) {
         }
         if (["sonarr", "radarr"].includes(type)) {
           if (enableQueue !== undefined) cleanedService.widget.enableQueue = JSON.parse(enableQueue);
+          if (refreshInterval) cleanedService.widget.refreshInterval = refreshInterval;
+        }
+        if (["sabnzbd"].includes(type)) {
+          if (enableQueue !== undefined) cleanedService.widget.enableQueue = JSON.parse(enableQueue);
+          if (refreshInterval) cleanedService.widget.refreshInterval = refreshInterval;
+        }
+        if (["deluge"].includes(type)) {
+          if (enableQueue !== undefined) cleanedService.widget.enableQueue = JSON.parse(enableQueue);
+          if (refreshInterval) cleanedService.widget.refreshInterval = refreshInterval;
         }
         if (type === "truenas") {
           if (enablePools !== undefined) cleanedService.widget.enablePools = JSON.parse(enablePools);

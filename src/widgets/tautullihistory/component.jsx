@@ -32,7 +32,7 @@ function RecordEntry({ record }) {
         </div>
         {platform && <PlatformIcon platform={platform.toLowerCase()} opacity="opacity-70"/>}
         <div className="text-xs z-10 self-center ml-1.5 h-4 grow mr-1">
-          <div className="w-20 z-10 self-center overflow-hidden justify-start">{friendly_name}</div>
+          <div className="w-16 z-10 self-center overflow-hidden justify-start">{friendly_name}</div>
         </div>
       </div>
       <div className="z-10 self-center ml-1 relative w-full h-4 grow mr-1">

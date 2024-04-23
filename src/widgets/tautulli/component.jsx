@@ -76,7 +76,7 @@ function SingleSessionEntry({ session, enableUser, showEpisodeNumber }) {
 }
 
 function SessionEntry({ session, enableUser, showEpisodeNumber }) {
-  const { full_title, duration, view_offset, progress_percent, state, video_decision, audio_decision, transcode_max_offset_available, platform } = session;
+  const { duration, view_offset, progress_percent, state, video_decision, audio_decision, transcode_max_offset_available, platform } = session;
 
   const stream_title = generateStreamTitle(session, enableUser, showEpisodeNumber);
   let transcodeProgress = Number(progress_percent);

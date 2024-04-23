@@ -15,7 +15,8 @@ function generateStreamTitle(session, enableUser, showEpisodeNumber) {
     const season_str = `S${parent_media_index.toString().padStart(2, "0")}`;
     const episode_str = `E${media_index.toString().padStart(2, "0")}`;
     stream_title = `${grandparent_title}: ${season_str} · ${episode_str} - ${title}`;
-  } else {
+  } 
+  else {
     stream_title = full_title;
   }
 
@@ -23,7 +24,7 @@ function generateStreamTitle(session, enableUser, showEpisodeNumber) {
 }
 
 function SingleSessionEntry({ session, enableUser, showEpisodeNumber }) {
-  const { duration, view_offset, progress_percent, state, video_decision, audio_decision } = session;
+  const { duration, view_offset, progress_percent, state, video_decision, audio_decision, transcode_max_offset_available, platform } = session;
 
   const stream_title = generateStreamTitle(session, enableUser, showEpisodeNumber);
   let transcodeProgress = Number(progress_percent);
@@ -75,7 +76,7 @@ function SingleSessionEntry({ session, enableUser, showEpisodeNumber }) {
 }
 
 function SessionEntry({ session, enableUser, showEpisodeNumber }) {
-  const { full_title, duration, view_offset, progress_percent, state, video_decision, audio_decision } = session;
+  const { full_title, duration, view_offset, progress_percent, state, video_decision, audio_decision, transcode_max_offset_available, platform } = session;
 
   const stream_title = generateStreamTitle(session, enableUser, showEpisodeNumber);
   let transcodeProgress = Number(progress_percent);

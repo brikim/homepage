@@ -395,6 +395,8 @@ export function cleanServiceGroups(groups) {
 
           // emby, jellyfin, tautulli
           enableUser,
+          expandOneStreamToTwoRows,
+          showEpisodeNumber,
 
           // tautullihistory
           maxItems,
@@ -538,10 +540,12 @@ export function cleanServiceGroups(groups) {
             cleanedService.widget.enableUser = false 
           }
         }
-        if (["tautulli"].includes(type)) {
-          if (enableUser !== undefined) {
-            cleanedService.widget.enableUser = !!JSON.parse(enableUser);
-          }
+        if (["emby", "jellyfin", "tautulli"].includes(type)) {
+          if (expandOneStreamToTwoRows !== undefined)
+            cleanedService.widget.expandOneStreamToTwoRows = !!JSON.parse(expandOneStreamToTwoRows);
+          if (showEpisodeNumber !== undefined)
+            cleanedService.widget.showEpisodeNumber = !!JSON.parse(showEpisodeNumber);
+          if (enableUser !== undefined) cleanedService.widget.enableUser = !!JSON.parse(enableUser);
         }
         if (["tautullihistory"].includes(type)) {
           if (maxItems) cleanedService.widget.maxItems = maxItems;

@@ -453,6 +453,9 @@ export function cleanServiceGroups(groups) {
           // proxmox
           node,
 
+          // speedtest
+          bitratePrecision,
+
           // sonarr, radarr
           enableQueue,
 
@@ -616,6 +619,11 @@ export function cleanServiceGroups(groups) {
         }
         if (type === "healthchecks") {
           if (uuid !== undefined) cleanedService.widget.uuid = uuid;
+        }
+        if (type === "speedtest") {
+          if (bitratePrecision !== undefined) {
+            cleanedService.widget.bitratePrecision = parseInt(bitratePrecision, 10);
+          }
         }
       }
 

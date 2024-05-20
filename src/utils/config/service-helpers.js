@@ -465,6 +465,9 @@ export function cleanServiceGroups(groups) {
 
           // unifi
           site,
+
+          // wgeasy
+          threshold,
         } = cleanedService.widget;
 
         let fieldsList = fields;
@@ -624,6 +627,9 @@ export function cleanServiceGroups(groups) {
           if (bitratePrecision !== undefined) {
             cleanedService.widget.bitratePrecision = parseInt(bitratePrecision, 10);
           }
+        }
+        if (type === "wgeasy") {
+          if (threshold !== undefined) cleanedService.widget.threshold = parseInt(threshold, 10);
         }
       }
 

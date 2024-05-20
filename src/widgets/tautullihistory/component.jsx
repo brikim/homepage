@@ -28,10 +28,10 @@ function RecordEntry({ record }) {
         onMouseLeave={() => setHover(false)}
         key={key}>
         <div className="text-xs z-10 self-center ml-1 mr-1 h-4 grow">
-          <div className="w-10 z-10 self-center overflow-hidden justify-start">{stoppedDate.setLocale(i18n.language).toLocaleString({ month: "short", day: "numeric" })}</div>
+          <div className="w-11 z-10 self-center overflow-hidden justify-start">{stoppedDate.setLocale(i18n.language).toLocaleString({ month: "short", day: "numeric" })}</div>
         </div>
         {platform && <PlatformIcon platform={platform.toLowerCase()} opacity="opacity-70"/>}
-        <div className="text-xs z-10 self-center ml-1.5 h-4 grow mr-1">
+        <div className="text-xs z-10 self-center ml-2 h-4 grow mr-1">
           <div className="w-16 z-10 self-center overflow-hidden justify-start">{friendly_name}</div>
         </div>
       </div>

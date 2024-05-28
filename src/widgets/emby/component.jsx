@@ -60,26 +60,29 @@ function SingleSessionEntry({ playCommand, session, enableUser, showEpisodeNumbe
 
   const { IsVideoDirect, IsAudioDirect, VideoDecoderIsHardware, VideoEncoderIsHardware } = session?.TranscodingInfo || {
     IsVideoDirect: true,
-  }; // if no transcodinginfo its videodirect
+    IsAudioDirect: true,
+  }; // if no transcodinginfo its video direct and audio direct
 
   const percent = Math.min(1, PositionTicks / RunTimeTicks) * 100;
 
   let iconType = "play";
-  // Jellyfin does not support VideoDecoderIsHardware or VideoEncoderIsHardware
-  if (typeof VideoDecoderIsHardware === 'undefined') {
-    if (!IsVideoDirect && !IsAudioDirect) {
-      iconType = "cpuFilled";
+  if (!IsVideoDirect || !IsAudioDirect) {
+    // Jellyfin does not support VideoDecoderIsHardware or VideoEncoderIsHardware
+    if (typeof VideoDecoderIsHardware === 'undefined') {
+      if (!IsVideoDirect && !IsAudioDirect) {
+        iconType = "cpuFilled";
+      }
+      else {
+        iconType = "cpu";
+      }
     }
-    else {
-      iconType = "cpu";
-    }
-  }
-  else if (!IsVideoDirect || !IsAudioDirect) {
-    if (IsAudioDirect || (VideoDecoderIsHardware && VideoEncoderIsHardware)) {
-      iconType = "cpu";
-    }
-    else {
-      iconType = "cpuFilled";
+    else if (!IsVideoDirect || !IsAudioDirect) {
+      if (IsAudioDirect || (VideoDecoderIsHardware && VideoEncoderIsHardware)) {
+        iconType = "cpu";
+      }
+      else {
+        iconType = "cpuFilled";
+      }
     }
   }
 
@@ -109,7 +112,7 @@ function SingleSessionEntry({ playCommand, session, enableUser, showEpisodeNumbe
         />
         <div className="text-xs z-10 self-center ml-1">
           {IsPaused && (
-            <BsFillPlayFill
+            <BsPauseFill
               onClick={() => {
                 playCommand(session, "Unpause");
               }}
@@ -117,7 +120,7 @@ function SingleSessionEntry({ playCommand, session, enableUser, showEpisodeNumbe
             />
           )}
           {!IsPaused && (
-            <BsPauseFill
+            <BsFillPlayFill
               onClick={() => {
                 playCommand(session, "Pause");
               }}
@@ -147,6 +150,7 @@ function SessionEntry({ playCommand, session, enableUser, showEpisodeNumber }) {
 
   const { IsVideoDirect, IsAudioDirect, VideoDecoderIsHardware, VideoEncoderIsHardware } = session?.TranscodingInfo || {
     IsVideoDirect: true,
+    IsAudioDirect: true,
   }; // if no transcodinginfo its videodirect
 
   const streamTitle = generateStreamTitle(session, enableUser, showEpisodeNumber);
@@ -154,21 +158,24 @@ function SessionEntry({ playCommand, session, enableUser, showEpisodeNumber }) {
   const percent = Math.min(1, PositionTicks / RunTimeTicks) * 100;
 
   let iconType = "play";
-  // Jellyfin does not support VideoDecoderIsHardware or VideoEncoderIsHardware
-  if (typeof VideoDecoderIsHardware === 'undefined') {
-    if (!IsVideoDirect && !IsAudioDirect) {
-      iconType = "cpuFilled";
+
+  if (!IsVideoDirect || !IsAudioDirect) {
+    // Jellyfin does not support VideoDecoderIsHardware or VideoEncoderIsHardware
+    if (typeof VideoDecoderIsHardware === 'undefined') {
+      if (!IsVideoDirect && !IsAudioDirect) {
+        iconType = "cpuFilled";
+      }
+      else {
+        iconType = "cpu";
+      }
     }
-    else {
-      iconType = "cpu";
-    }
-  }
-  else if (!IsVideoDirect || !IsAudioDirect) {
-    if (IsAudioDirect || (VideoDecoderIsHardware && VideoEncoderIsHardware)) {
-      iconType = "cpu";
-    }
-    else {
-      iconType = "cpuFilled";
+    else if (!IsVideoDirect || !IsAudioDirect) {
+      if (IsAudioDirect || (VideoDecoderIsHardware && VideoEncoderIsHardware)) {
+        iconType = "cpu";
+      }
+      else {
+        iconType = "cpuFilled";
+      }
     }
   }
 
@@ -182,7 +189,7 @@ function SessionEntry({ playCommand, session, enableUser, showEpisodeNumber }) {
       />
       <div className="text-xs z-10 self-center ml-1">
         {IsPaused && (
-          <BsFillPlayFill
+          <BsPauseFill
             onClick={() => {
               playCommand(session, "Unpause");
             }}
@@ -190,7 +197,7 @@ function SessionEntry({ playCommand, session, enableUser, showEpisodeNumber }) {
           />
         )}
         {!IsPaused && (
-          <BsPauseFill
+          <BsFillPlayFill
             onClick={() => {
               playCommand(session, "Pause");
             }}

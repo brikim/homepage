@@ -44,7 +44,7 @@ function generateStreamTitle(session, enableUser, showEpisodeNumber) {
     const episodeStr = `E${IndexNumber.toString().padStart(2, "0")}`;
     streamTitle = `${SeriesName}: ${seasonStr} · ${episodeStr} - ${Name}`;
   } else {
-    streamTitle = `${Name}${SeriesName ? ` - ${SeriesName}` : ""}`;
+    streamTitle = `${SeriesName ? `${SeriesName} - ` : ""}${Name}`;
   }
 
   return enableUser ? `${streamTitle} (${UserName})` : streamTitle;
@@ -67,17 +67,17 @@ function SingleSessionEntry({ playCommand, session, enableUser, showEpisodeNumbe
 
   let iconType = "play";
   if (!IsVideoDirect || !IsAudioDirect) {
-    // Jellyfin does not support VideoDecoderIsHardware or VideoEncoderIsHardware
-    if (typeof VideoDecoderIsHardware === 'undefined') {
-      if (!IsVideoDirect && !IsAudioDirect) {
-        iconType = "cpuFilled";
-      }
-      else {
+    // Jellyfin does not support VideoEncoderIsHardware
+    if (VideoEncoderIsHardware == null) {
+      if (IsVideoDirect) {
         iconType = "cpu";
       }
+      else {
+        iconType = "cpuFilled";
+      }
     }
-    else if (!IsVideoDirect || !IsAudioDirect) {
-      if (IsAudioDirect || (VideoDecoderIsHardware && VideoEncoderIsHardware)) {
+    else {
+      if (IsVideoDirect || (VideoDecoderIsHardware && VideoEncoderIsHardware)) {
         iconType = "cpu";
       }
       else {
@@ -161,12 +161,12 @@ function SessionEntry({ playCommand, session, enableUser, showEpisodeNumber }) {
 
   if (!IsVideoDirect || !IsAudioDirect) {
     // Jellyfin does not support VideoDecoderIsHardware or VideoEncoderIsHardware
-    if (typeof VideoDecoderIsHardware === 'undefined') {
-      if (!IsVideoDirect && !IsAudioDirect) {
-        iconType = "cpuFilled";
+    if (VideoDecoderIsHardware == null) {
+      if (IsVideoDirect) {
+        iconType = "cpu";
       }
       else {
-        iconType = "cpu";
+        iconType = "cpuFilled";
       }
     }
     else if (!IsVideoDirect || !IsAudioDirect) {

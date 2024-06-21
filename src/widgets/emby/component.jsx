@@ -76,13 +76,11 @@ function SingleSessionEntry({ playCommand, session, enableUser, showEpisodeNumbe
         iconType = "cpuFilled";
       }
     }
+    else if (IsVideoDirect || (VideoDecoderIsHardware && VideoEncoderIsHardware)) {
+      iconType = "cpu";
+    }
     else {
-      if (IsVideoDirect || (VideoDecoderIsHardware && VideoEncoderIsHardware)) {
-        iconType = "cpu";
-      }
-      else {
-        iconType = "cpuFilled";
-      }
+      iconType = "cpuFilled";
     }
   }
 

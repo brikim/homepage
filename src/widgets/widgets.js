@@ -54,6 +54,7 @@ import mikrotik from "./mikrotik/widget";
 import mjpeg from "./mjpeg/widget";
 import moonraker from "./moonraker/widget";
 import mylar from "./mylar/widget";
+import myspeed from "./myspeed/widget";
 import navidrome from "./navidrome/widget";
 import netalertx from "./netalertx/widget";
 import netdata from "./netdata/widget";
@@ -93,6 +94,7 @@ import scrutiny from "./scrutiny/widget";
 import sonarr from "./sonarr/widget";
 import speedtest from "./speedtest/widget";
 import stash from "./stash/widget";
+import stocks from "./stocks/widget";
 import strelaysrv from "./strelaysrv/widget";
 import swagdashboard from "./swagdashboard/widget";
 import tailscale from "./tailscale/widget";
@@ -173,6 +175,7 @@ const widgets = {
   mjpeg,
   moonraker,
   mylar,
+  myspeed,
   navidrome,
   netalertx,
   netdata,
@@ -214,6 +217,7 @@ const widgets = {
   sonarr,
   speedtest,
   stash,
+  stocks,
   strelaysrv,
   swagdashboard,
   tailscale,

@@ -88,6 +88,7 @@ nav:
           - widgets/services/mjpeg.md
           - widgets/services/moonraker.md
           - widgets/services/mylar.md
+          - widgets/services/myspeed.md
           - widgets/services/navidrome.md
           - widgets/services/netdata.md
           - widgets/services/netalertx.md
@@ -129,6 +130,7 @@ nav:
           - widgets/services/sonarr.md
           - widgets/services/speedtest-tracker.md
           - widgets/services/stash.md
+          - widgets/services/stocks.md
           - widgets/services/swagdashboard.md
           - widgets/services/syncthing-relay-server.md
           - widgets/services/tailscale.md
@@ -159,6 +161,7 @@ nav:
           - widgets/info/openweathermap.md
           - widgets/info/resources.md
           - widgets/info/search.md
+          - widgets/info/stocks.md
           - widgets/info/unifi_controller.md
           - widgets/info/weather.md
   - "Learn":

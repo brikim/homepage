@@ -399,10 +399,14 @@ export function cleanServiceGroups(groups) {
           expandOneStreamToTwoRows,
           showEpisodeNumber,
 
+<<<<<<< HEAD
           // tautullihistory
           maxItems,
 
+          // glances, pihole
+=======
           // glances, pihole, pfsense
+>>>>>>> origin/main
           version,
 
           // glances

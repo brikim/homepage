@@ -4,12 +4,40 @@ import Container from "components/services/widget/container";
 import Block from "components/services/widget/block";
 import useWidgetAPI from "utils/proxy/use-widget-api";
 
+function QueueEntry({ filename, percentage, size, downloadRate }) {
+  return (
+      <div className="text-theme-700 dark:text-theme-200 relative h-5 rounded-md bg-theme-200/50 dark:bg-theme-900/20 m-1 px-1 flex">
+        <div
+          className="absolute h-5 rounded-md bg-theme-200 dark:bg-theme-900/40 z-0 -ml-1"
+          style={{
+            width: `${percentage}%`,
+          }}
+        />
+        <div className="text-xs z-10 self-center ml-1 relative h-4 grow mr-1">
+          <div className="absolute w-full whitespace-nowrap text-ellipsis overflow-hidden text-left">{filename}</div>
+        </div>
+        <div className="self-center text-xs flex justify-end mr-2 pl-1 z-10 text-ellipsis overflow-hidden whitespace-nowrap">
+          {downloadRate}
+        </div>
+        <div className="self-center text-xs flex w-12 justify-end mr-1.5 pl-1.5 z-10 text-ellipsis overflow-hidden whitespace-nowrap">
+          {size}
+        </div>
+        <div className="self-center text-xs flex w-8 justify-end mr-1.5 z-10 text-ellipsis overflow-hidden whitespace-nowrap">
+          {`${percentage}%`}
+        </div>
+      </div>
+  );
+}
+
 export default function Component({ service }) {
   const { t } = useTranslation();
 
   const { widget } = service;
 
-  const { data: torrentData, error: torrentError } = useWidgetAPI(widget, "torrents");
+  const { refreshInterval = 5000 } = widget;
+  const { data: torrentData, error: torrentError } = useWidgetAPI(widget, "torrents", {
+    refreshInterval: Math.max(1000, refreshInterval),
+  });
 
   if (torrentError) {
     return <Container service={service} error={torrentError} />;
@@ -40,13 +68,26 @@ export default function Component({ service }) {
   }
 
   const leech = torrentData.length - completed;
+  const enableQueue = widget?.enableQueue && torrentData.length > 0;
 
   return (
-    <Container service={service}>
-      <Block label="qbittorrent.leech" value={t("common.number", { value: leech })} />
-      <Block label="qbittorrent.download" value={t("common.bibyterate", { value: rateDl, decimals: 1 })} />
-      <Block label="qbittorrent.seed" value={t("common.number", { value: completed })} />
-      <Block label="qbittorrent.upload" value={t("common.bibyterate", { value: rateUl, decimals: 1 })} />
-    </Container>
+    <>
+      <Container service={service}>
+        <Block label="qbittorrent.leech" value={t("common.number", { value: leech })} />
+        <Block label="qbittorrent.download" value={t("common.bibyterate", { value: rateDl, decimals: 1 })} />
+        <Block label="qbittorrent.seed" value={t("common.number", { value: completed })} />
+        <Block label="qbittorrent.upload" value={t("common.bibyterate", { value: rateUl, decimals: 1 })} />
+      </Container>
+      {enableQueue &&
+        torrentData.map((queueEntry) => (
+          <QueueEntry
+            key={queueEntry.hash}
+            filename={queueEntry.name}
+            percentage={Math.round(queueEntry.progress * 100).toString()}
+            size={t("common.bbytes", { value: queueEntry.total_size, decimals: 1 })}
+            downloadRate={t("common.bibyterate", { value: queueEntry.dlspeed, decimals: 1 })}
+          />
+      ))}
+    </>
   );
 }

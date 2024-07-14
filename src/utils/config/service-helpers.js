@@ -402,7 +402,7 @@ export function cleanServiceGroups(groups) {
           // tautullihistory
           maxItems,
 
-          // glances, pihole
+          // glances, pihole, pfsense
           version,
 
           // glances
@@ -511,6 +511,9 @@ export function cleanServiceGroups(groups) {
         }
         if (type === "unifi") {
           if (site) cleanedService.widget.site = site;
+        }
+        if (type === "pfsense") {
+          if (version) cleanedService.widget.version = version;
         }
         if (type === "proxmox") {
           if (node) cleanedService.widget.node = node;

@@ -398,6 +398,9 @@ export function cleanServiceGroups(groups) {
           enableUser,
           expandOneStreamToTwoRows,
           showEpisodeNumber,
+          
+           // frigate
+          enableRecentEvents,
 
           // tautullihistory
           maxItems,
@@ -646,6 +649,9 @@ export function cleanServiceGroups(groups) {
         }
         if (type === "wgeasy") {
           if (threshold !== undefined) cleanedService.widget.threshold = parseInt(threshold, 10);
+        }
+        if (type === "frigate") {
+          if (enableRecentEvents !== undefined) cleanedService.widget.enableRecentEvents = enableRecentEvents;
         }
       }
 

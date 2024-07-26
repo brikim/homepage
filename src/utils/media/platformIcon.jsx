@@ -1,4 +1,4 @@
-import { BsAndroid2, BsApple, BsBrowserChrome, BsBrowserEdge, BsBrowserFirefox, BsPlaystation, BsWindows, BsXbox } from "react-icons/bs";
+import { BsAndroid2, BsApple, BsBrowserChrome, BsBrowserEdge, BsBrowserFirefox, BsPlaystation, BsTv, BsWindows, BsXbox } from "react-icons/bs";
 import { SiLg, SiLinux, SiOperagx, SiPlex, SiRoku, SiSafari, SiSamsung, SiWii } from "react-icons/si";
 
 export default function PlatformIcon({ platform, opacity }) {
@@ -21,6 +21,7 @@ export default function PlatformIcon({ platform, opacity }) {
         {platform === "roku" && <SiRoku className={opacity} />}
         {platform === "safari" && <SiSafari className={opacity} />}
         {(platform === "samsung" || platform === "tizen") && <SiSamsung className={opacity} />}
+        {platform === "vizio smartcast" && <BsTv className={opacity} />}
         {platform === "wiiu" && <SiWii className={opacity} />}
         {(platform === "windows" || platform === "windows phone") && <BsWindows className={opacity} />}
         {platform === "xbox" && <BsXbox className={opacity} />}

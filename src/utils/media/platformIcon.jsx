@@ -1,5 +1,5 @@
-import { BsAndroid2, BsApple, BsBrowserChrome, BsBrowserEdge, BsBrowserFirefox, BiLogoOpera, BsPlaystation, BsWindows, BsXbox } from "react-icons/bs";
-import { SiLg, SiLinux, SiPlex, SiRoku, SiSafari, SiSamsung, SiWii } from "react-icons/si";
+import { BsAndroid2, BsApple, BsBrowserChrome, BsBrowserEdge, BsBrowserFirefox, BsPlaystation, BsWindows, BsXbox } from "react-icons/bs";
+import { SiLg, SiLinux, SiOpera, SiPlex, SiRoku, SiSafari, SiSamsung, SiWii } from "react-icons/si";
 
 export default function PlatformIcon({ platform, opacity }) {
   return (
@@ -15,7 +15,7 @@ export default function PlatformIcon({ platform, opacity }) {
         {(platform === "microsoft edge" || platform === "internet explorer") && <BsBrowserEdge className={opacity} />}
         {(platform === "netcast" || platform === "webos") && <SiLg className={opacity} />}
         {(platform === "opera" || platform === "vizio" || 
-          platform === "vizio smartcast") && <BiLogoOpera className={opacity} />}
+          platform === "vizio smartcast") && <SiOpera className={opacity} />}
         {platform === "playstation" && <BsPlaystation className={opacity} />}
         {(platform === "plex home theater" || platform === "plex media player" ||
           platform === "plexamp" || platform === "plextogether") && <SiPlex className={opacity} />}

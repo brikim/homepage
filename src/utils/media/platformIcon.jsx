@@ -1,4 +1,4 @@
-import { BsAndroid2, BsApple, BsBrowserChrome, BsBrowserEdge, BsBrowserFirefox, BsPlaystation, BsTv, BsWindows, BsXbox } from "react-icons/bs";
+import { BsAndroid2, BsApple, BsBrowserChrome, BsBrowserEdge, BsBrowserFirefox, BsPlaystation, BsWindows, BsXbox } from "react-icons/bs";
 import { SiLg, SiLinux, SiOperagx, SiPlex, SiRoku, SiSafari, SiSamsung, SiWii } from "react-icons/si";
 
 export default function PlatformIcon({ platform, opacity }) {
@@ -14,14 +14,14 @@ export default function PlatformIcon({ platform, opacity }) {
         {platform === "linux" && <SiLinux className={opacity} />}
         {(platform === "microsoft edge" || platform === "internet explorer") && <BsBrowserEdge className={opacity} />}
         {(platform === "netcast" || platform === "webos") && <SiLg className={opacity} />}
-        {(platform === "opera" || platform === "vizio") && <SiOperagx className={opacity} />}
+        {(platform === "opera" || platform === "vizio" || 
+          platform === "vizio smartcast") && <SiOperagx className={opacity} />}
         {platform === "playstation" && <BsPlaystation className={opacity} />}
         {(platform === "plex home theater" || platform === "plex media player" ||
           platform === "plexamp" || platform === "plextogether") && <SiPlex className={opacity} />}
         {platform === "roku" && <SiRoku className={opacity} />}
         {platform === "safari" && <SiSafari className={opacity} />}
         {(platform === "samsung" || platform === "tizen") && <SiSamsung className={opacity} />}
-        {platform === "vizio smartcast" && <BsTv className={opacity} />}
         {platform === "wiiu" && <SiWii className={opacity} />}
         {(platform === "windows" || platform === "windows phone") && <BsWindows className={opacity} />}
         {platform === "xbox" && <BsXbox className={opacity} />}

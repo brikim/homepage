@@ -28,7 +28,8 @@ export default function Component({ service }) {
 
   const filtered =
     adguardData.num_replaced_safebrowsing + adguardData.num_replaced_safesearch + adguardData.num_replaced_parental;
-
+  let useMs = adguardData.avg_processing_time < 1;
+  
   return (
     <Container service={service}>
       <Block label="adguard.queries" value={t("common.number", { value: adguardData.num_dns_queries })} />
@@ -36,7 +37,7 @@ export default function Component({ service }) {
       <Block label="adguard.filtered" value={t("common.number", { value: filtered })} />
       <Block
         label="adguard.latency"
-        value={t("common.ms", { value: adguardData.avg_processing_time * 1000, style: "unit", unit: "millisecond" })}
+        value={t("common.ms", { value: useMs ? adguardData.avg_processing_time * 1000 : adguardData.avg_processing_time, style: "unit", unit: useMs ? "millisecond" : "second" })}
       />
     </Container>
   );

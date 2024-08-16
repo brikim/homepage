@@ -28,7 +28,14 @@ export default function Component({ service }) {
 
   const filtered =
     adguardData.num_replaced_safebrowsing + adguardData.num_replaced_safesearch + adguardData.num_replaced_parental;
-  let useMs = adguardData.avg_processing_time < 1;
+  
+  let latencyType = "second";
+  let latency = adguardData.avg_processing_time;
+  if (latency < 1) {
+    latencyType = "millisecond";
+    latency = adguardData.avg_processing_time * 1000;
+  }
+  latency = latency.toFixed(1);
   
   return (
     <Container service={service}>
@@ -37,7 +44,7 @@ export default function Component({ service }) {
       <Block label="adguard.filtered" value={t("common.number", { value: filtered })} />
       <Block
         label="adguard.latency"
-        value={t("common.ms", { value: useMs ? adguardData.avg_processing_time * 1000 : adguardData.avg_processing_time, style: "unit", unit: useMs ? "millisecond" : "second" })}
+        value={t("common.ms", { value: latency, style: "unit", unit: latencyType })}
       />
     </Container>
   );

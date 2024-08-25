@@ -16,15 +16,6 @@ export default function Component({ service }) {
     return <Container service={service} error={alertsError ?? bansError} />;
   }
 
-  if (!alerts && !bans) {
-    return (
-      <Container service={service}>
-        <Block label="crowdsec.alerts" />
-        <Block label="crowdsec.bans" />
-      </Container>
-    );
-  }
-
   return (
     <Container service={service}>
       <Block label="crowdsec.alerts" value={t("common.number", { value: alerts?.length ?? 0 })} />

@@ -113,6 +113,7 @@ const components = {
   tandoor: dynamic(() => import("./tandoor/component")),
   tautulli: dynamic(() => import("./tautulli/component")),
   tautullihistory: dynamic(() => import("./tautullihistory/component")),
+  technitium: dynamic(() => import("./technitium/component")),
   tdarr: dynamic(() => import("./tdarr/component")),
   traefik: dynamic(() => import("./traefik/component")),
   transmission: dynamic(() => import("./transmission/component")),
@@ -127,6 +128,7 @@ const components = {
   wgeasy: dynamic(() => import("./wgeasy/component")),
   whatsupdocker: dynamic(() => import("./whatsupdocker/component")),
   xteve: dynamic(() => import("./xteve/component")),
+  zabbix: dynamic(() => import("./zabbix/component")),
 };
 
 export default components;

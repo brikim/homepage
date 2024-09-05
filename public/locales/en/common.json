@@ -326,6 +326,19 @@
         "seconds": "{{number}}s",
         "ago": "{{value}} Ago"
     },
+    "technitium": {
+        "totalQueries": "Queries",
+        "totalNoError": "Success",
+        "totalServerFailure": "Failures",
+        "totalNxDomain": "NX Domains",
+        "totalRefused": "Refused",
+        "totalAuthoritative": "Authoritative",
+        "totalRecursive": "Recursive",
+        "totalCached": "Cached",
+        "totalBlocked": "Blocked",
+        "totalDropped": "Dropped",
+        "totalClients": "Clients"
+    },
     "tdarr": {
         "queue": "Queue",
         "processed": "Processed",
@@ -921,5 +934,13 @@
         "links": "Links",
         "collections": "Collections",
         "tags": "Tags"
+    },
+    "zabbix": {
+      "unclassified": "Not classified",
+      "information": "Information",
+      "warning": "Warning",
+      "average": "Average",
+      "high": "High",
+      "disaster": "Disaster"
     }
 }

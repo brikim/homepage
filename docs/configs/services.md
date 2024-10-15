@@ -67,7 +67,7 @@ Services may have an icon attached to them, you can use icons from [Dashboard Ic
 
 You can also specify prefixed icons from:
 
-- [Material Design Icons](https://materialdesignicons.com) with `mdi-XX`
+- [Material Design Icons](https://pictogrammers.com/library/mdi/) with `mdi-XX`
 - [Simple Icons](https://simpleicons.org/) with `si-XX`
 - [selfh.st/icons](https://selfh.st/icons/) with `sh-XX` to use the png version or `sh-XX.svg/png/webp` for a specific version
 
@@ -175,7 +175,7 @@ Services may be connected to a Docker container, either running on the local mac
 
 !!! note
 
-      This can also be controlled with `showStats`. See [show docker stats](docker.md#show-docker-stats) for more information
+      This can also be controlled with `showStats`. See [show docker stats](docker.md#show-stats) for more information
 
 <img width="1038" alt="Docker Stats Expanded" src="https://github.com/gethomepage/homepage/assets/88257202/f95fd595-449e-48ae-af67-fd89618904ec">
 

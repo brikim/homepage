@@ -48,6 +48,7 @@ import komga from "./komga/widget";
 import kopia from "./kopia/widget";
 import lidarr from "./lidarr/widget";
 import linkwarden from "./linkwarden/widget";
+import lubelogger from "./lubelogger/widget";
 import mailcow from "./mailcow/widget";
 import mastodon from "./mastodon/widget";
 import mealie from "./mealie/widget";
@@ -115,6 +116,7 @@ import unifi from "./unifi/widget";
 import unmanic from "./unmanic/widget";
 import uptimekuma from "./uptimekuma/widget";
 import uptimerobot from "./uptimerobot/widget";
+import vikunja from "./vikunja/widget";
 import watchtower from "./watchtower/widget";
 import wgeasy from "./wgeasy/widget";
 import whatsupdocker from "./whatsupdocker/widget";
@@ -175,6 +177,7 @@ const widgets = {
   kopia,
   lidarr,
   linkwarden,
+  lubelogger,
   mailcow,
   mastodon,
   mealie,
@@ -246,6 +249,7 @@ const widgets = {
   uptimekuma,
   uptimerobot,
   urbackup,
+  vikunja,
   watchtower,
   wgeasy,
   whatsupdocker,

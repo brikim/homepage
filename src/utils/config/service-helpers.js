@@ -464,6 +464,7 @@ export function cleanServiceGroups(groups) {
           // proxmox
           node,
 
+          // myspeed
           // speedtest
           bitratePrecision,
 
@@ -651,7 +652,7 @@ export function cleanServiceGroups(groups) {
         if (type === "healthchecks") {
           if (uuid !== undefined) cleanedService.widget.uuid = uuid;
         }
-        if (type === "speedtest") {
+        if (["myspeed", "speedtest"].includes(type)) {
           if (bitratePrecision !== undefined) {
             cleanedService.widget.bitratePrecision = parseInt(bitratePrecision, 10);
           }

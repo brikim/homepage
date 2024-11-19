@@ -24,35 +24,40 @@ export default function Component({ service }) {
   if (!data || (data && data.length === 0)) {
     return (
       <Container service={service}>
-        <Block label="myspeed.ping" />
         <Block label="myspeed.download" />
         <Block label="myspeed.upload" />
+        <Block label="myspeed.ping" />
       </Container>
     );
   }
 
+  const bitratePrecision =
+    !widget?.bitratePrecision || Number.isNaN(widget?.bitratePrecision) || widget?.bitratePrecision < 0
+      ? 0
+      : widget.bitratePrecision;
+
   return (
     <Container service={service}>
-      <Block
-        label="myspeed.ping"
-        value={t("common.ms", {
-          value: data[0].ping,
-          style: "unit",
-          unit: "millisecond",
-        })}
-      />
       <Block
         label="myspeed.download"
         value={t("common.bitrate", {
           value: data[0].download * 1000 * 1000,
-          decimals: 2,
+          decimals: bitratePrecision,
         })}
       />
       <Block
         label="myspeed.upload"
         value={t("common.bitrate", {
           value: data[0].upload * 1000 * 1000,
-          decimals: 2,
+          decimals: bitratePrecision,
+        })}
+      />
+      <Block
+        label="myspeed.ping"
+        value={t("common.ms", {
+          value: data[0].ping,
+          style: "unit",
+          unit: "millisecond",
         })}
       />
     </Container>

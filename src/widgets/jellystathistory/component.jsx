@@ -50,7 +50,7 @@ function RecordEntry({ record }) {
   }
 
   let transcode_decision = "";
-  if (PlayMethod == "DirectStream") {
+  if (PlayMethod === "DirectStream") {
     transcode_decision = "direct play";
   }
 

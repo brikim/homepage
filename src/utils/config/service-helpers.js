@@ -368,6 +368,9 @@ export function cleanServiceGroups(groups) {
           repositoryId,
           userEmail,
 
+          // beszel
+          systemId,
+
           // calendar
           firstDayInWeek,
           integrations,
@@ -415,7 +418,7 @@ export function cleanServiceGroups(groups) {
           pointsLimit,
           diskUnits,
 
-          // glances, customapi, iframe
+          // glances, customapi, iframe, prometheusmetric
           refreshInterval,
 
           // tautullihistory
@@ -461,6 +464,9 @@ export function cleanServiceGroups(groups) {
           // opnsense, pfsense
           wan,
 
+          // prometheusmetric
+          metrics,
+
           // proxmox
           node,
 
@@ -489,6 +495,9 @@ export function cleanServiceGroups(groups) {
 
           // technitium
           range,
+
+          // spoolman
+          spoolIds,
         } = cleanedService.widget;
 
         let fieldsList = fields;
@@ -512,6 +521,10 @@ export function cleanServiceGroups(groups) {
         if (type === "azuredevops") {
           if (userEmail) cleanedService.widget.userEmail = userEmail;
           if (repositoryId) cleanedService.widget.repositoryId = repositoryId;
+        }
+
+        if (type === "beszel") {
+          if (systemId) cleanedService.widget.systemId = systemId;
         }
 
         if (type === "coinmarketcap") {
@@ -674,6 +687,13 @@ export function cleanServiceGroups(groups) {
         }
         if (type === "vikunja") {
           if (enableTaskList !== undefined) cleanedService.widget.enableTaskList = !!enableTaskList;
+        }
+        if (type === "prometheusmetric") {
+          if (metrics) cleanedService.widget.metrics = metrics;
+          if (refreshInterval) cleanedService.widget.refreshInterval = refreshInterval;
+        }
+        if (type === "spoolman") {
+          if (spoolIds !== undefined) cleanedService.widget.spoolIds = spoolIds;
         }
       }
 

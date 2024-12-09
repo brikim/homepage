@@ -42,6 +42,7 @@ import healthchecks from "./healthchecks/widget";
 import immich from "./immich/widget";
 import jackett from "./jackett/widget";
 import jellyseerr from "./jellyseerr/widget";
+import jellystathistory from "./jellystathistory/widget";
 import jdownloader from "./jdownloader/widget";
 import kavita from "./kavita/widget";
 import komga from "./komga/widget";
@@ -172,6 +173,7 @@ const widgets = {
   jdownloader,
   jellyfin: emby,
   jellyseerr,
+  jellystathistory,
   kavita,
   komga,
   kopia,

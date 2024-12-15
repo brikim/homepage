@@ -40,7 +40,7 @@ function RecordEntry({ record }) {
 
   let streamTitle = ""
   if (SeriesName) {
-    streamTitle = SeriesName + " - " + NowPlayingItemName;
+    streamTitle = `${SeriesName} - ${NowPlayingItemName}`;
   }
   else {
     streamTitle = NowPlayingItemName;

@@ -17,7 +17,7 @@ function secondsToTime(secondsValue) {
   return { hours, minutes, seconds };
 }
 
-function ticksToString(secondsValue) {
+function secondsToString(secondsValue) {
   const { hours, minutes, seconds } = secondsToTime(secondsValue);
   let timeVal = "";
   if (hours > 0) {
@@ -36,17 +36,35 @@ function ticksToString(secondsValue) {
 function RecordEntry({ record }) {
   const [hover, setHover] = useState(false);
   const { i18n } = useTranslation();
-  const { NowPlayingItemName, Client, DeviceName, ActivityDateInserted, PlaybackDuration, PlayMethod, UserName } = record;
+  const { NowPlayingItemName, Client, DeviceName, ActivityDateInserted, PlaybackDuration, PlayMethod, SeriesName, UserName } = record;
+
+  let streamTitle = ""
+  if (SeriesName) {
+    streamTitle = SeriesName + " - " + NowPlayingItemName;
+  }
+  else {
+    streamTitle = NowPlayingItemName;
+  }
 
   const playDate = DateTime.fromISO(ActivityDateInserted);
   const key = `record-${NowPlayingItemName}-${ActivityDateInserted}-${UserName}`;
 
   let platform = "";
-  if (Client.includes("Android")) {
+  const lowerClient = Client.toLowerCase();
+  if (lowerClient.includes("android")) {
     platform = "android";
   }
-  else if (Client.includes("Web")) {
+  else if (lowerClient.includes("roku")) {
+    platform = "roku"
+  }
+  else if (lowerClient.includes("web")) {
     platform = "chrome";
+  }
+  else if (lowerClient.includes("apple")) {
+    platform = "ios"
+  }
+  else if (lowerClient.includes("lg")) {
+    platform = "lg"
   }
 
   let transcode_decision = "";
@@ -76,7 +94,7 @@ function RecordEntry({ record }) {
               className="absolute text-xs w-full whitespace-nowrap text-ellipsis overflow-hidden"
               onMouseEnter={() => setHover(true)}
               onMouseLeave={() => setHover(false)}
-              key={key}>{NowPlayingItemName}</div>
+              key={key}>{streamTitle}</div>
           }
           {hover &&
             <div 
@@ -89,7 +107,7 @@ function RecordEntry({ record }) {
               </div>
               <div className="self-center ml-1 whitespace-nowrap text-ellipsis overflow-hidden">{DeviceName}</div>
               <div className="grow "/>
-              <div className="self-center text-xs justify-end mr-0.5 pl-1">{PlaybackDuration && ticksToString(PlaybackDuration)}</div>
+              <div className="self-center text-xs justify-end mr-0.5 pl-1">{PlaybackDuration && secondsToString(PlaybackDuration)}</div>
             </div>
           }
       </div>
@@ -100,6 +118,7 @@ function RecordEntry({ record }) {
 export default function Component({ service }) {
   const { t } = useTranslation();
   const { widget } = service;
+  const maxItems = widget?.maxItems ?? 10;
 
   const { data: historyData, error: historyError } = useWidgetAPI(widget, "getHistory");
   
@@ -119,7 +138,7 @@ export default function Component({ service }) {
 
   return (
     <div className="flex flex-col pb-1 mx-1">
-      { historyData.map((record) => (
+      { historyData.slice(0, maxItems).map((record) => (
         <RecordEntry 
           key={`record-entry-${record.NowPlayingItemName}-${record.UserName}-${record.Id}`}
           record={record} 

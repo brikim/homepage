@@ -421,7 +421,7 @@ export function cleanServiceGroups(groups) {
           // glances, customapi, iframe, prometheusmetric
           refreshInterval,
 
-          // tautullihistory
+          // tautullihistory, jellystathistory
           maxItems,
 
           // hdhomerun
@@ -590,7 +590,7 @@ export function cleanServiceGroups(groups) {
             cleanedService.widget.showEpisodeNumber = !!JSON.parse(showEpisodeNumber);
           if (enableUser !== undefined) cleanedService.widget.enableUser = !!JSON.parse(enableUser);
         }
-        if (["tautullihistory"].includes(type)) {
+        if (["tautullihistory", "jellystathistory"].includes(type)) {
           if (maxItems) cleanedService.widget.maxItems = maxItems;
         }
         if (["sonarr", "radarr"].includes(type)) {

@@ -98,7 +98,6 @@ export default function Widget({ options }) {
             unit: "percent",
             maximumFractionDigits: 0,
           })}
-          label={t("glances.cpu")}
           expandedValue={t("common.number", {
             value: data.load.min15,
             style: "unit",
@@ -118,7 +117,6 @@ export default function Widget({ options }) {
             maximumFractionDigits: 1,
             binary: true,
           })}
-          label={t(options.used ? "glances.used" : "glances.free")}
           expandedValue={t("common.bytes", {
             value: data.mem.total,
             maximumFractionDigits: 1,
@@ -134,7 +132,6 @@ export default function Widget({ options }) {
           key={`disk_${disk.mnt_point ?? disk.device_name}`}
           icon={FiHardDrive}
           value={t(diskUnits, { value: options.used ? disk.used : disk.free })}
-          label={t(options.used ? "glances.used" : "glances.free")}
           expandedValue={t(diskUnits, { value: disk.size })}
           expandedLabel={t("glances.total")}
           percentage={disk.percent}
@@ -150,7 +147,6 @@ export default function Widget({ options }) {
             style: "unit",
             unit,
           })}
-          label={t("glances.temp")}
           expandedValue={t("common.number", {
             value: maxTemp,
             maximumFractionDigits: 1,
@@ -166,7 +162,6 @@ export default function Widget({ options }) {
         <Resource
           icon={FaRegClock}
           value={data.uptime.replace(" days,", t("glances.days")).replace(/:\d\d:\d\d$/g, t("glances.hours"))}
-          label={t("glances.uptime")}
           percentage={Math.round((Number(data.uptime.slice(-5, -3)) / 60) * 100).toString()}
         />
       )}

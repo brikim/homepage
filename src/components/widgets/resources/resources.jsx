@@ -6,6 +6,7 @@ import Cpu from "./cpu";
 import Memory from "./memory";
 import CpuTemp from "./cputemp";
 import Uptime from "./uptime";
+import Network from "./network";
 
 export default function Resources({ options }) {
   const { expanded, units, diskUnits, tempmin, tempmax } = options;
@@ -25,6 +26,7 @@ export default function Resources({ options }) {
                 <Disk key={disk} options={{ disk }} expanded={expanded} diskUnits={diskUnits} refresh={refresh} used={used}/>
               ))
             : options.disk && <Disk options={options} expanded={expanded} diskUnits={diskUnits} refresh={refresh} used={used} />}
+          {options.network && <Network options={options} refresh={refresh} />}
           {options.cputemp && (
             <CpuTemp expanded={expanded} units={units} refresh={refresh} tempmin={tempmin} tempmax={tempmax} />
           )}

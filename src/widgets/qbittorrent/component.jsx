@@ -1,10 +1,12 @@
 import { useTranslation } from "next-i18next";
 
+import QueueEntry from "../../components/widgets/queue/queueEntry";
+
 import Container from "components/services/widget/container";
 import Block from "components/services/widget/block";
 import useWidgetAPI from "utils/proxy/use-widget-api";
 
-function QueueEntry({ filename, percentage, size, downloadRate }) {
+function OwnQueueEntry({ filename, percentage, size, downloadRate }) {
   return (
       <div className="text-theme-700 dark:text-theme-200 relative h-5 rounded-md bg-theme-200/50 dark:bg-theme-900/20 m-1 px-1 flex">
         <div
@@ -31,7 +33,6 @@ function QueueEntry({ filename, percentage, size, downloadRate }) {
 
 export default function Component({ service }) {
   const { t } = useTranslation();
-
   const { widget } = service;
 
   const { refreshInterval = 5000 } = widget;
@@ -57,6 +58,7 @@ export default function Component({ service }) {
   let rateDl = 0;
   let rateUl = 0;
   let completed = 0;
+  const leechTorrents = [];
 
   for (let i = 0; i < torrentData.length; i += 1) {
     const torrent = torrentData[i];
@@ -65,10 +67,12 @@ export default function Component({ service }) {
     if (torrent.progress === 1) {
       completed += 1;
     }
+    if (torrent.state.includes("DL") || torrent.state === "downloading") {
+      leechTorrents.push(torrent);
+    }
   }
 
   const leech = torrentData.length - completed;
-  const enableQueue = widget?.enableQueue && torrentData.length > 0;
 
   return (
     <>
@@ -78,9 +82,19 @@ export default function Component({ service }) {
         <Block label="qbittorrent.seed" value={t("common.number", { value: completed })} />
         <Block label="qbittorrent.upload" value={t("common.bibyterate", { value: rateUl, decimals: 1 })} />
       </Container>
-      {enableQueue &&
-        torrentData.map((queueEntry) => (
+      {widget?.enableLeechProgress &&
+        leechTorrents.map((queueEntry) => (
           <QueueEntry
+            progress={queueEntry.progress * 100}
+            timeLeft={t("common.duration", { value: queueEntry.eta })}
+            title={queueEntry.name}
+            activity={queueEntry.state}
+            key={`${queueEntry.name}-${queueEntry.amount_left}`}
+          />
+        ))}
+        {enableQueue &&
+        torrentData.map((queueEntry) => (
+          <OwnQueueEntry
             key={queueEntry.hash}
             filename={queueEntry.name}
             percentage={Math.round(queueEntry.progress * 100).toString()}

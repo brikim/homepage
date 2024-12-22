@@ -1,10 +1,12 @@
 import { useTranslation } from "next-i18next";
 
+import QueueEntry from "../../components/widgets/queue/queueEntry";
+
 import Container from "components/services/widget/container";
 import Block from "components/services/widget/block";
 import useWidgetAPI from "utils/proxy/use-widget-api";
 
-function QueueEntry({ filename, percentage, size, downloadRate }) {
+function OwnQueueEntry({ filename, percentage, size, downloadRate }) {
   return (
       <div className="text-theme-700 dark:text-theme-200 relative h-5 rounded-md bg-theme-200/50 dark:bg-theme-900/20 m-1 px-1 flex">
         <div
@@ -57,15 +59,19 @@ export default function Component({ service }) {
   const { torrents } = torrentData;
   const keys = torrents ? Object.keys(torrents) : [];
 
-  const torrentDownloads = [];
   let rateDl = 0;
   let rateUl = 0;
   let completed = 0;
+  const leechTorrents = [];
+
   for (let i = 0; i < keys.length; i += 1) {
     const torrent = torrents[keys[i]];
     rateDl += torrent.download_payload_rate;
     rateUl += torrent.upload_payload_rate;
     completed += torrent.total_remaining === 0 ? 1 : 0;
+    if (torrent.state === "Downloading") {
+      leechTorrents.push(torrent);
+    }
 
     const key = keys[i];
     const { name } = torrent;
@@ -76,7 +82,6 @@ export default function Component({ service }) {
   }
 
   const leech = keys.length - completed || 0;
-  const enableQueue = widget?.enableQueue && torrentDownloads.length > 0;
 
   return (
     <>
@@ -86,9 +91,19 @@ export default function Component({ service }) {
         <Block label="deluge.seed" value={t("common.number", { value: completed })} />
         <Block label="deluge.upload" value={t("common.bibyterate", { value: rateUl })} />
       </Container>
-      {enableQueue &&
-        torrentDownloads.map((queueEntry) => (
+      {widget?.enableLeechProgress &&
+        leechTorrents.map((queueEntry) => (
           <QueueEntry
+            progress={queueEntry.progress}
+            timeLeft={t("common.duration", { value: queueEntry.eta })}
+            title={queueEntry.name}
+            activity={queueEntry.state}
+            key={`${queueEntry.name}-${queueEntry.total_remaining}`}
+          />
+        ))}
+        {enableQueue &&
+        torrentDownloads.map((queueEntry) => (
+          <OwnQueueEntry
             key={queueEntry.key}
             filename={queueEntry.name}
             percentage={queueEntry.progress}

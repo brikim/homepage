@@ -590,48 +590,46 @@ export function cleanServiceGroups(groups) {
           if (wan) widget.wan = wan;
         }
         if (["emby", "jellyfin"].includes(type)) {
-          if (refreshInterval) cleanedService.widget.refreshInterval = refreshInterval;
-          if (enableBlocks !== undefined) cleanedService.widget.enableBlocks = JSON.parse(enableBlocks);
-          if (enableNowPlaying !== undefined) cleanedService.widget.enableNowPlaying = JSON.parse(enableNowPlaying);
+          if (refreshInterval !== undefined) widget.refreshInterval = refreshInterval;
+          if (enableBlocks !== undefined) widget.enableBlocks = JSON.parse(enableBlocks);
+          if (enableNowPlaying !== undefined) widget.enableNowPlaying = JSON.parse(enableNowPlaying);
           if (enableUser !== undefined) {
-            cleanedService.widget.enableUser = !!JSON.parse(enableUser);
+            widget.enableUser = !!JSON.parse(enableUser);
           }
         }
         if (["plex"].includes(type)) {
-          if (enableBlocks !== undefined) cleanedService.widget.enableBlocks = JSON.parse(enableBlocks);
-          if (enableNowPlaying !== undefined) cleanedService.widget.enableNowPlaying = JSON.parse(enableNowPlaying);
+          if (enableBlocks !== undefined) widget.enableBlocks = JSON.parse(enableBlocks);
+          if (enableNowPlaying !== undefined) widget.enableNowPlaying = JSON.parse(enableNowPlaying);
           if (enableUser !== undefined) { 
-            cleanedService.widget.enableUser = JSON.parse(enableUser) 
+            widget.enableUser = JSON.parse(enableUser)
           } 
-          else { 
-            cleanedService.widget.enableUser = false 
-          }
+          else widget.enableUser = false
         }
         if (["emby", "jellyfin", "tautulli"].includes(type)) {
           if (expandOneStreamToTwoRows !== undefined)
-            cleanedService.widget.expandOneStreamToTwoRows = !!JSON.parse(expandOneStreamToTwoRows);
+            widget.expandOneStreamToTwoRows = !!JSON.parse(expandOneStreamToTwoRows);
           if (showEpisodeNumber !== undefined)
-            cleanedService.widget.showEpisodeNumber = !!JSON.parse(showEpisodeNumber);
-          if (enableUser !== undefined) cleanedService.widget.enableUser = !!JSON.parse(enableUser);
+            widget.showEpisodeNumber = !!JSON.parse(showEpisodeNumber);
+          if (enableUser !== undefined) widget.enableUser = !!JSON.parse(enableUser);
         }
         if (["tautullihistory", "jellystathistory"].includes(type)) {
-          if (maxItems) cleanedService.widget.maxItems = maxItems;
+          if (maxItems) widget.maxItems = maxItems;
         }
         if (["sonarr", "radarr"].includes(type)) {
-          if (enableQueue !== undefined) cleanedService.widget.enableQueue = JSON.parse(enableQueue);
-          if (refreshInterval) cleanedService.widget.refreshInterval = refreshInterval;
+          if (enableQueue !== undefined) widget.enableQueue = JSON.parse(enableQueue);
+          if (refreshInterval) widget.refreshInterval = refreshInterval;
         }
         if (["sabnzbd"].includes(type)) {
-          if (enableQueue !== undefined) cleanedService.widget.enableQueue = JSON.parse(enableQueue);
-          if (refreshInterval) cleanedService.widget.refreshInterval = refreshInterval;
+          if (enableQueue !== undefined) widget.enableQueue = JSON.parse(enableQueue);
+          if (refreshInterval) widget.refreshInterval = refreshInterval;
         }
         if (["deluge"].includes(type)) {
-          if (enableQueue !== undefined) cleanedService.widget.enableQueue = JSON.parse(enableQueue);
-          if (refreshInterval) cleanedService.widget.refreshInterval = refreshInterval;
+          if (enableQueue !== undefined) widget.enableQueue = JSON.parse(enableQueue);
+          if (refreshInterval) widget.refreshInterval = refreshInterval;
         }
         if (["qbittorrent"].includes(type)) {
-          if (enableQueue !== undefined) cleanedService.widget.enableQueue = JSON.parse(enableQueue);
-          if (refreshInterval) cleanedService.widget.refreshInterval = refreshInterval;
+          if (enableQueue !== undefined) widget.enableQueue = JSON.parse(enableQueue);
+          if (refreshInterval) widget.refreshInterval = refreshInterval;
         }
         if (type === "truenas") {
           if (enablePools !== undefined) widget.enablePools = JSON.parse(enablePools);

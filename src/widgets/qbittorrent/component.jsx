@@ -73,6 +73,7 @@ export default function Component({ service }) {
   }
 
   const leech = torrentData.length - completed;
+  const enableQueue = widget?.enableQueue && torrentData.length > 0;
 
   return (
     <>
@@ -91,16 +92,16 @@ export default function Component({ service }) {
             activity={queueEntry.state}
             key={`${queueEntry.name}-${queueEntry.amount_left}`}
           />
-        ))}
-        {enableQueue &&
-        torrentData.map((queueEntry) => (
-          <OwnQueueEntry
-            key={queueEntry.hash}
-            filename={queueEntry.name}
-            percentage={Math.round(queueEntry.progress * 100).toString()}
-            size={t("common.bbytes", { value: queueEntry.total_size, decimals: 1 })}
-            downloadRate={t("common.bibyterate", { value: queueEntry.dlspeed, decimals: 1 })}
-          />
+      ))}
+      {enableQueue &&
+      torrentData.map((queueEntry) => (
+        <OwnQueueEntry
+          key={queueEntry.hash}
+          filename={queueEntry.name}
+          percentage={Math.round(queueEntry.progress * 100).toString()}
+          size={t("common.bbytes", { value: queueEntry.total_size, decimals: 1 })}
+          downloadRate={t("common.bibyterate", { value: queueEntry.dlspeed, decimals: 1 })}
+        />
       ))}
     </>
   );

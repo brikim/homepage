@@ -59,6 +59,7 @@ export default function Component({ service }) {
   const { torrents } = torrentData;
   const keys = torrents ? Object.keys(torrents) : [];
 
+  const torrentDownloads = [];
   let rateDl = 0;
   let rateUl = 0;
   let completed = 0;
@@ -82,6 +83,7 @@ export default function Component({ service }) {
   }
 
   const leech = keys.length - completed || 0;
+  const enableQueue = widget?.enableQueue && torrentDownloads.length > 0;
 
   return (
     <>

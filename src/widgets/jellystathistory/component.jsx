@@ -136,9 +136,18 @@ export default function Component({ service }) {
     );
   }
 
+  // Api change check if results exists else use the top level return array
+  let slicedResults = [];
+  if (historyData.results) {
+    slicedResults = historyData.results.slice(0, maxItems);
+  }
+  else {
+    slicedResults = historyData.slice(0, maxItems)
+  }
+
   return (
     <div className="flex flex-col pb-1 mx-1">
-      { historyData.slice(0, maxItems).map((record) => (
+      { slicedResults.map((record) => (
         <RecordEntry 
           key={`record-entry-${record.NowPlayingItemName}-${record.UserName}-${record.Id}`}
           record={record} 

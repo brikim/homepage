@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import { useTranslation } from "next-i18next";
 import { DateTime } from "luxon";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import classNames from "classnames";
 
 import Container from "components/services/widget/container";
@@ -120,13 +120,24 @@ export default function Component({ service }) {
   const { widget } = service;
   const maxItems = widget?.maxItems ?? 10;
 
-  const { data: historyData, error: historyError } = useWidgetAPI(widget, "getHistory");
+  // params for API fetch
+    const params = useMemo(() => {
+      const constructedParams = {
+        size: 0,
+      };
+  
+      constructedParams.size = maxItems;
+  
+      return constructedParams;
+    }, [maxItems]);
+  
+  const { data: historyData, error: historyError } = useWidgetAPI(widget, "getHistory", { ...params });
   
   if (historyError) {
     return <Container service={service} error={historyError ?? { message: t("jellystathistory.connection_error") }} />;
   }
 
-  if (!historyData || historyData.length === 0) {
+  if (!historyData || historyData.size == 0 || historyData.results.length === 0) {
     return (
       <div className={classNames("flex flex-col", (!historyData || historyData.length === 0) && "animate-pulse")}>
         <div className="text-theme-700 dark:text-theme-200 text-xs relative h-5 w-full rounded-md bg-theme-200/50 dark:bg-theme-900/20 mt-1">
@@ -136,18 +147,9 @@ export default function Component({ service }) {
     );
   }
 
-  // Api change check if results exists else use the top level return array
-  let slicedResults = [];
-  if (historyData.results) {
-    slicedResults = historyData.results.slice(0, maxItems);
-  }
-  else {
-    slicedResults = historyData.slice(0, maxItems)
-  }
-
   return (
     <div className="flex flex-col pb-1 mx-1">
-      { slicedResults.map((record) => (
+      { historyData.results.map((record) => (
         <RecordEntry 
           key={`record-entry-${record.NowPlayingItemName}-${record.UserName}-${record.Id}`}
           record={record} 

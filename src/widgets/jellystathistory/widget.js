@@ -7,6 +7,7 @@ const widget = {
   mappings: {
     getHistory: {
       endpoint: "getHistory",
+      params: ["size"],
     },
   },
 };

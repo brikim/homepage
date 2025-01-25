@@ -103,7 +103,7 @@ function RecordEntry({ record }) {
               onMouseLeave={() => setHover(false)}
               key={key}>
               <div className="w-5 self-center justify-start">
-                <PlayStatusIcon videoDecision={transcode_decision} audioDecision={transcode_decision} opacity="opacity-70"/>
+                <PlayStatusIcon videoDecision={transcode_decision} audioDecision={transcode_decision} transcodeDecision={transcode_decision} opacity="opacity-70"/>
               </div>
               <div className="self-center ml-1 whitespace-nowrap text-ellipsis overflow-hidden">{DeviceName}</div>
               <div className="grow "/>
@@ -137,7 +137,7 @@ export default function Component({ service }) {
     return <Container service={service} error={historyError ?? { message: t("jellystathistory.connection_error") }} />;
   }
 
-  if (!historyData || historyData.size == 0 || historyData.results.length === 0) {
+  if (!historyData || historyData.size === 0 || historyData.results.length === 0) {
     return (
       <div className={classNames("flex flex-col", (!historyData || historyData.length === 0) && "animate-pulse")}>
         <div className="text-theme-700 dark:text-theme-200 text-xs relative h-5 w-full rounded-md bg-theme-200/50 dark:bg-theme-900/20 mt-1">

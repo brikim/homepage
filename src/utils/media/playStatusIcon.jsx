@@ -1,16 +1,25 @@
 import { PiCopy, PiCpu, PiCpuFill } from "react-icons/pi";
 import { MdOutlineSmartDisplay } from "react-icons/md";
 
-export default function PlayStatusIcon({ videoDecision, audioDecision, opacity }) {
+export default function PlayStatusIcon({ videoDecision, audioDecision, transcodeDecision, opacity }) {
+  let videoDecisionToUse = videoDecision
+  let audioDecisionToUse = audioDecision
+  if (videoDecisionToUse === '') {
+    videoDecisionToUse = transcodeDecision
+  }
+  if (audioDecisionToUse === '') {
+    audioDecisionToUse = transcodeDecision
+  }
+
   return (
     <div className="self-center text-base flex z-10">
-      {videoDecision === "direct play" && audioDecision === "direct play" && (
+      {videoDecisionToUse === "direct play" && audioDecisionToUse === "direct play" && (
         <MdOutlineSmartDisplay className={opacity} />
       )}
-      {videoDecision === "copy" && audioDecision === "copy" && <PiCopy className={opacity} />}
-      {videoDecision !== "copy" && videoDecision !== "direct play" && <PiCpuFill className={opacity} />}
-      {(videoDecision === "copy" || videoDecision === "direct play") &&
-       (audioDecision !== "copy" && audioDecision !== "direct play") && <PiCpu className={opacity} />}
+      {videoDecisionToUse === "copy" && audioDecisionToUse === "copy" && <PiCopy className={opacity} />}
+      {videoDecisionToUse !== "copy" && videoDecisionToUse !== "direct play" && <PiCpuFill className={opacity} />}
+      {(videoDecisionToUse === "copy" || videoDecisionToUse === "direct play") &&
+       (audioDecisionToUse !== "copy" && audioDecisionToUse !== "direct play") && <PiCpu className={opacity} />}
     </div>
   );
 }

@@ -50,7 +50,7 @@ function RecordEntry({ record }) {
               onMouseLeave={() => setHover(false)}
               key={key}>
               <div className="w-5 self-center justify-start">
-                <PlayStatusIcon videoDecision={transcode_decision} audioDecision={transcode_decision} opacity="opacity-70"/>
+                <PlayStatusIcon videoDecision={transcode_decision} audioDecision={transcode_decision} transcodeDecision={transcode_decision} opacity="opacity-70"/>
               </div>
               <div className="self-center ml-1 whitespace-nowrap text-ellipsis overflow-hidden">{player}</div>
               <div className="grow "/>

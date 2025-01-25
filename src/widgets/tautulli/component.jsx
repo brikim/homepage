@@ -24,7 +24,7 @@ function generateStreamTitle(session, enableUser, showEpisodeNumber) {
 }
 
 function SingleSessionEntry({ session, enableUser, showEpisodeNumber }) {
-  const { duration, view_offset, progress_percent, state, video_decision, audio_decision, transcode_max_offset_available, platform } = session;
+  const { duration, view_offset, progress_percent, state, video_decision, audio_decision, transcode_decision, transcode_max_offset_available, platform } = session;
 
   const stream_title = generateStreamTitle(session, enableUser, showEpisodeNumber);
   let transcodeProgress = Number(progress_percent);
@@ -41,7 +41,7 @@ function SingleSessionEntry({ session, enableUser, showEpisodeNumber }) {
             {stream_title}
           </div>
         </div>
-        <PlayStatusIcon videoDecision={video_decision} audioDecision={audio_decision} opacity="opacity-60"/>
+        <PlayStatusIcon videoDecision={video_decision} audioDecision={audio_decision} transcodeDecision={transcode_decision} opacity="opacity-60"/>
       </div>
 
       <div className="text-theme-700 dark:text-theme-200 relative h-5 w-full rounded-md bg-theme-200/50 dark:bg-theme-900/20 mt-1 flex">
@@ -76,7 +76,7 @@ function SingleSessionEntry({ session, enableUser, showEpisodeNumber }) {
 }
 
 function SessionEntry({ session, enableUser, showEpisodeNumber }) {
-  const { duration, view_offset, progress_percent, state, video_decision, audio_decision, transcode_max_offset_available, platform } = session;
+  const { duration, view_offset, progress_percent, state, video_decision, audio_decision, transcode_decision, transcode_max_offset_available, platform } = session;
 
   const stream_title = generateStreamTitle(session, enableUser, showEpisodeNumber);
   let transcodeProgress = Number(progress_percent);
@@ -112,7 +112,7 @@ function SessionEntry({ session, enableUser, showEpisodeNumber }) {
         </div>
       </div>
       <div className="self-center text-xs flex justify-end mr-1 pl-1 z-10">{MillisecondsToString(view_offset)}</div>
-      <PlayStatusIcon videoDecision={video_decision} audioDecision={audio_decision} opacity="opacity-60"/>
+      <PlayStatusIcon videoDecision={video_decision} audioDecision={audio_decision} transcodeDecision={transcode_decision} opacity="opacity-60"/>
     </div>
   );
 }

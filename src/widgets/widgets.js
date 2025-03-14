@@ -1,4 +1,5 @@
 import adguard from "./adguard/widget";
+import apcups from "./apcups/widget";
 import argocd from "./argocd/widget";
 import atsumeru from "./atsumeru/widget";
 import audiobookshelf from "./audiobookshelf/widget";
@@ -24,6 +25,7 @@ import emby from "./emby/widget";
 import esphome from "./esphome/widget";
 import evcc from "./evcc/widget";
 import fileflows from "./fileflows/widget";
+import firefly from "./firefly/widget";
 import flood from "./flood/widget";
 import freshrss from "./freshrss/widget";
 import frigate from "./frigate/widget";
@@ -39,6 +41,7 @@ import gotify from "./gotify/widget";
 import grafana from "./grafana/widget";
 import hdhomerun from "./hdhomerun/widget";
 import headscale from "./headscale/widget";
+import hoarder from "./hoarder/widget";
 import homeassistant from "./homeassistant/widget";
 import homebox from "./homebox/widget";
 import homebridge from "./homebridge/widget";
@@ -135,6 +138,7 @@ import zabbix from "./zabbix/widget";
 
 const widgets = {
   adguard,
+  apcups,
   argocd,
   atsumeru,
   audiobookshelf,
@@ -159,6 +163,7 @@ const widgets = {
   esphome,
   evcc,
   fileflows,
+  firefly,
   flood,
   freshrss,
   frigate,
@@ -174,6 +179,7 @@ const widgets = {
   grafana,
   hdhomerun,
   headscale,
+  hoarder,
   homeassistant,
   homebox,
   homebridge,

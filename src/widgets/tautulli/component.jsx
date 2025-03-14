@@ -1,7 +1,6 @@
 /* eslint-disable camelcase */
 import { useTranslation } from "next-i18next";
 import { BsFillPlayFill, BsPauseFill } from "react-icons/bs";
-
 import Container from "components/services/widget/container";
 import useWidgetAPI from "utils/proxy/use-widget-api";
 import PlatformIcon from "utils/media/platformIcon";

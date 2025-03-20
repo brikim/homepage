@@ -31,22 +31,19 @@ export default function Component({ service }) {
     );
   }
 
-  const download = widget.version === 2 ? speedtestData.data.download * 8 : speedtestData.data.download * 1000 * 1000;
-  const upload = widget.version === 2 ? speedtestData.data.upload * 8 : speedtestData.data.upload * 1000 * 1000;
-
   return (
     <Container service={service}>
       <Block
         label="speedtest.download"
         value={t("common.bitrate", {
-          value: download,
+          value: widget.version === 2 ? speedtestData.data.download * 8 : speedtestData.data.download * 1000 * 1000,
           decimals: bitratePrecision,
         })}
       />
       <Block
         label="speedtest.upload"
         value={t("common.bitrate", {
-          value: upload,
+          value: widget.version === 2 ? speedtestData.data.upload * 8 : speedtestData.data.upload * 1000 * 1000,
           decimals: bitratePrecision,
         })}
       />

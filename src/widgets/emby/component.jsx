@@ -250,7 +250,7 @@ export default function Component({ service }) {
   const { t } = useTranslation();
 
   const { widget } = service;
-
+  const { refreshInterval = 5000 } = widget;
   const {
     data: sessionsData,
     error: sessionsError,

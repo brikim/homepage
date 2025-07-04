@@ -60,7 +60,7 @@ function RecordEntry({ record }) {
   else if (lowerClient.includes("web")) {
     platform = "chrome";
   }
-  else if (lowerClient.includes("apple")) {
+  else if (lowerClient.includes("apple") || lowerClient.includes("ios")) {
     platform = "ios"
   }
   else if (lowerClient.includes("lg")) {

@@ -295,6 +295,7 @@ export function cleanServiceGroups(groups) {
           // emby, jellyfin
           enableBlocks,
           enableNowPlaying,
+          enableMediaControl,
 
           // emby, jellyfin, tautulli
           enableUser,
@@ -340,6 +341,10 @@ export function cleanServiceGroups(groups) {
           // jellystat
           days,
 
+          // komodo
+          showSummary,
+          showStacks,
+
           // kopia
           snapshotHost,
           snapshotPath,
@@ -364,6 +369,9 @@ export function cleanServiceGroups(groups) {
 
           // opnsense, pfsense
           wan,
+
+          // portainer
+          kubernetes,
 
           // prometheusmetric
           metrics,
@@ -402,6 +410,9 @@ export function cleanServiceGroups(groups) {
 
           // spoolman
           spoolIds,
+
+          // grafana
+          alerts,
         } = widgetData;
 
         let fieldsList = fields;
@@ -446,11 +457,18 @@ export function cleanServiceGroups(groups) {
         if (type === "unifi") {
           if (site) widget.site = site;
         }
+        if (type === "portainer") {
+          if (kubernetes) widget.kubernetes = !!JSON.parse(kubernetes);
+        }
         if (type === "proxmox") {
           if (node) widget.node = node;
         }
         if (type === "proxmoxbackupserver") {
           if (datastore) widget.datastore = datastore;
+        }
+        if (type === "komodo") {
+          if (showSummary !== undefined) widget.showSummary = !!JSON.parse(showSummary);
+          if (showStacks !== undefined) widget.showStacks = !!JSON.parse(showStacks);
         }
         if (type === "kubernetes") {
           if (namespace) widget.namespace = namespace;
@@ -474,12 +492,11 @@ export function cleanServiceGroups(groups) {
           if (wan) widget.wan = wan;
         }
         if (["emby", "jellyfin"].includes(type)) {
+          if (enableMediaControl !== undefined) widget.enableMediaControl = !!JSON.parse(enableMediaControl);
           if (refreshInterval !== undefined) widget.refreshInterval = refreshInterval;
           if (enableBlocks !== undefined) widget.enableBlocks = JSON.parse(enableBlocks);
           if (enableNowPlaying !== undefined) widget.enableNowPlaying = JSON.parse(enableNowPlaying);
-          if (enableUser !== undefined) {
-            widget.enableUser = !!JSON.parse(enableUser);
-          }
+          if (enableUser !== undefined) widget.enableUser = !!JSON.parse(enableUser);
         }
         if (["plex"].includes(type)) {
           if (enableBlocks !== undefined) widget.enableBlocks = JSON.parse(enableBlocks);
@@ -490,10 +507,8 @@ export function cleanServiceGroups(groups) {
           else widget.enableUser = false
         }
         if (["emby", "jellyfin", "tautulli"].includes(type)) {
-          if (expandOneStreamToTwoRows !== undefined)
-            widget.expandOneStreamToTwoRows = !!JSON.parse(expandOneStreamToTwoRows);
-          if (showEpisodeNumber !== undefined)
-            widget.showEpisodeNumber = !!JSON.parse(showEpisodeNumber);
+          if (expandOneStreamToTwoRows !== undefined) widget.expandOneStreamToTwoRows = !!JSON.parse(expandOneStreamToTwoRows);
+          if (showEpisodeNumber !== undefined) widget.showEpisodeNumber = !!JSON.parse(showEpisodeNumber);
           if (enableUser !== undefined) widget.enableUser = !!JSON.parse(enableUser);
         }
         if (["tautullihistory", "jellystathistory"].includes(type)) {
@@ -530,7 +545,18 @@ export function cleanServiceGroups(groups) {
           if (snapshotPath) widget.snapshotPath = snapshotPath;
         }
         if (
-          ["beszel", "glances", "immich", "komga", "mealie", "pfsense", "pihole", "speedtest", "wgeasy"].includes(type)
+          [
+            "beszel",
+            "glances",
+            "immich",
+            "komga",
+            "mealie",
+            "pfsense",
+            "pihole",
+            "speedtest",
+            "wgeasy",
+            "grafana",
+          ].includes(type)
         ) {
           if (version) widget.version = parseInt(version, 10);
         }
@@ -608,6 +634,9 @@ export function cleanServiceGroups(groups) {
         }
         if (type === "jellystat") {
           if (days !== undefined) widget.days = parseInt(days, 10);
+        }
+        if (type === "grafana") {
+          if (alerts) widget.alerts = alerts;
         }
         return widget;
       });

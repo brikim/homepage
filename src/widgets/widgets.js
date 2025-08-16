@@ -25,6 +25,7 @@ import downloadstation from "./downloadstation/widget";
 import emby from "./emby/widget";
 import esphome from "./esphome/widget";
 import evcc from "./evcc/widget";
+import filebrowser from "./filebrowser/widget";
 import fileflows from "./fileflows/widget";
 import firefly from "./firefly/widget";
 import flood from "./flood/widget";
@@ -55,6 +56,7 @@ import jellystathistory from "./jellystathistory/widget";
 import karakeep from "./karakeep/widget";
 import kavita from "./kavita/widget";
 import komga from "./komga/widget";
+import komodo from "./komodo/widget";
 import kopia from "./kopia/widget";
 import lidarr from "./lidarr/widget";
 import linkwarden from "./linkwarden/widget";
@@ -125,6 +127,7 @@ import tdarr from "./tdarr/widget";
 import technitium from "./technitium/widget";
 import traefik from "./traefik/widget";
 import transmission from "./transmission/widget";
+import trilium from "./trilium/widget";
 import truenas from "./truenas/widget";
 import tubearchivist from "./tubearchivist/widget";
 import unifi from "./unifi/widget";
@@ -133,6 +136,7 @@ import uptimekuma from "./uptimekuma/widget";
 import uptimerobot from "./uptimerobot/widget";
 import urbackup from "./urbackup/widget";
 import vikunja from "./vikunja/widget";
+import wallos from "./wallos/widget";
 import watchtower from "./watchtower/widget";
 import wgeasy from "./wgeasy/widget";
 import whatsupdocker from "./whatsupdocker/widget";
@@ -166,6 +170,7 @@ const widgets = {
   emby,
   esphome,
   evcc,
+  filebrowser,
   fileflows,
   firefly,
   flood,
@@ -199,6 +204,7 @@ const widgets = {
   jellystathistory,
   kavita,
   komga,
+  komodo,
   kopia,
   lidarr,
   linkwarden,
@@ -270,6 +276,7 @@ const widgets = {
   tdarr,
   traefik,
   transmission,
+  trilium,
   tubearchivist,
   truenas,
   unifi,
@@ -279,6 +286,7 @@ const widgets = {
   uptimerobot,
   urbackup,
   vikunja,
+  wallos,
   watchtower,
   wgeasy,
   whatsupdocker,

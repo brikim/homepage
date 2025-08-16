@@ -34,7 +34,7 @@ function ticksToString(ticks) {
 
 function generateStreamTitle(session, enableUser, showEpisodeNumber) {
   const {
-    NowPlayingItem: { Name, SeriesName, Type, ParentIndexNumber, IndexNumber },
+    NowPlayingItem: { Name, SeriesName, Type, ParentIndexNumber, IndexNumber, AlbumArtist, Album },
     UserName,
   } = session;
   let streamTitle = "";
@@ -43,6 +43,8 @@ function generateStreamTitle(session, enableUser, showEpisodeNumber) {
     const seasonStr = ParentIndexNumber ? `S${ParentIndexNumber.toString().padStart(2, "0")}` : "";
     const episodeStr = IndexNumber ? `E${IndexNumber.toString().padStart(2, "0")}` : "";
     streamTitle = `${SeriesName}: ${seasonStr} · ${episodeStr} - ${Name}`;
+  } else if (Type === "Audio") {
+    streamTitle = `${AlbumArtist} - ${Album} - ${Name}`;
   } else {
     streamTitle = `${SeriesName ? `${SeriesName} - ` : ""}${Name}`;
   }
@@ -50,7 +52,7 @@ function generateStreamTitle(session, enableUser, showEpisodeNumber) {
   return enableUser ? `${streamTitle} (${UserName})` : streamTitle;
 }
 
-function SingleSessionEntry({ playCommand, session, enableUser, showEpisodeNumber }) {
+function SingleSessionEntry({ playCommand, session, enableUser, showEpisodeNumber, enableMediaControl }) {
   const {
     PlayState: { PositionTicks, IsPaused, IsMuted },
   } = session;
@@ -109,7 +111,7 @@ function SingleSessionEntry({ playCommand, session, enableUser, showEpisodeNumbe
           }}
         />
         <div className="text-xs z-10 self-center ml-1">
-          {IsPaused && (
+          {enableMediaControl && IsPaused && (
             <BsPauseFill
               onClick={() => {
                 playCommand(session, "Unpause");
@@ -117,7 +119,7 @@ function SingleSessionEntry({ playCommand, session, enableUser, showEpisodeNumbe
               className="inline-block w-4 h-4 cursor-pointer -mt-[1px] mr-1 opacity-80"
             />
           )}
-          {!IsPaused && (
+          {enableMediaControl && !IsPaused && (
             <BsFillPlayFill
               onClick={() => {
                 playCommand(session, "Pause");
@@ -138,7 +140,7 @@ function SingleSessionEntry({ playCommand, session, enableUser, showEpisodeNumbe
   );
 }
 
-function SessionEntry({ playCommand, session, enableUser, showEpisodeNumber }) {
+function SessionEntry({ playCommand, session, enableUser, showEpisodeNumber, enableMediaControl }) {
   const {
     PlayState: { PositionTicks, IsPaused, IsMuted },
   } = session;
@@ -186,7 +188,7 @@ function SessionEntry({ playCommand, session, enableUser, showEpisodeNumber }) {
         }}
       />
       <div className="text-xs z-10 self-center ml-1">
-        {IsPaused && (
+        {enableMediaControl && IsPaused && (
           <BsPauseFill
             onClick={() => {
               playCommand(session, "Unpause");
@@ -194,7 +196,7 @@ function SessionEntry({ playCommand, session, enableUser, showEpisodeNumber }) {
             className="inline-block w-4 h-4 cursor-pointer -mt-[1px] mr-1 opacity-80"
           />
         )}
-        {!IsPaused && (
+        {enableMediaControl && !IsPaused && (
           <BsFillPlayFill
             onClick={() => {
               playCommand(session, "Pause");
@@ -285,6 +287,7 @@ export default function Component({ service }) {
 
   const enableBlocks = service.widget?.enableBlocks;
   const enableNowPlaying = service.widget?.enableNowPlaying ?? true;
+  const enableMediaControl = service.widget?.enableMediaControl !== false; // default is true
   const enableUser = !!service.widget?.enableUser; // default is false
   const expandOneStreamToTwoRows = service.widget?.expandOneStreamToTwoRows !== false; // default is true
   const showEpisodeNumber = !!service.widget?.showEpisodeNumber; // default is false
@@ -351,6 +354,7 @@ export default function Component({ service }) {
               session={session}
               enableUser={enableUser}
               showEpisodeNumber={showEpisodeNumber}
+              enableMediaControl={enableMediaControl}
             />
           </div>
         </>
@@ -368,6 +372,7 @@ export default function Component({ service }) {
               session={session}
               enableUser={enableUser}
               showEpisodeNumber={showEpisodeNumber}
+              enableMediaControl={enableMediaControl}
             />
           ))}
         </div>

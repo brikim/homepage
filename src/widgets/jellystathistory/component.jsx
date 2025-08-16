@@ -72,6 +72,8 @@ function RecordEntry({ record }) {
     transcode_decision = "direct play";
   }
 
+  const extraInfo = `${Client} - ${DeviceName}`;
+
   // Requires setHover in each section since hover changes the right hand side
   return (
     <div className="flex flex-row text-theme-700 dark:text-theme-200 items-center text-xs relative h-5 w-full rounded-md bg-theme-200/50 dark:bg-theme-900/20 mt-1">
@@ -105,7 +107,7 @@ function RecordEntry({ record }) {
               <div className="w-5 self-center justify-start">
                 <PlayStatusIcon videoDecision={transcode_decision} audioDecision={transcode_decision} transcodeDecision={transcode_decision} opacity="opacity-70"/>
               </div>
-              <div className="self-center ml-1 whitespace-nowrap text-ellipsis overflow-hidden">{DeviceName}</div>
+              <div className="self-center ml-1 whitespace-nowrap text-ellipsis overflow-hidden">{extraInfo}</div>
               <div className="grow "/>
               <div className="self-center text-xs justify-end mr-0.5 pl-1">{PlaybackDuration && secondsToString(PlaybackDuration)}</div>
             </div>

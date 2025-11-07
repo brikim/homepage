@@ -37,10 +37,14 @@ export default function Component({ service }) {
   }
   latency = latency.toFixed(1);
   
+  let blockedValue = `${t("common.number", { value: parseInt(adguardData.num_blocked_filtering, 10) })}`;
+  const percentage = (adguardData.num_blocked_filtering / adguardData.num_dns_queries) * 100;
+  blockedValue += ` (${t("common.percent", { value: parseFloat(percentage).toPrecision(3) })})`;
+  
   return (
     <Container service={service}>
       <Block label="adguard.queries" value={t("common.number", { value: adguardData.num_dns_queries })} />
-      <Block label="adguard.blocked" value={t("common.number", { value: adguardData.num_blocked_filtering })} />
+      <Block label="adguard.blocked" value={blockedValue} />
       <Block label="adguard.filtered" value={t("common.number", { value: filtered })} />
       <Block
         label="adguard.latency"

@@ -6,6 +6,7 @@ import audiobookshelf from "./audiobookshelf/widget";
 import authentik from "./authentik/widget";
 import autobrr from "./autobrr/widget";
 import azuredevops from "./azuredevops/widget";
+import backrest from "./backrest/widget";
 import bazarr from "./bazarr/widget";
 import beszel from "./beszel/widget";
 import caddy from "./caddy/widget";
@@ -132,6 +133,7 @@ import truenas from "./truenas/widget";
 import tubearchivist from "./tubearchivist/widget";
 import unifi from "./unifi/widget";
 import unmanic from "./unmanic/widget";
+import unraid from "./unraid/widget";
 import uptimekuma from "./uptimekuma/widget";
 import uptimerobot from "./uptimerobot/widget";
 import urbackup from "./urbackup/widget";
@@ -141,6 +143,7 @@ import watchtower from "./watchtower/widget";
 import wgeasy from "./wgeasy/widget";
 import whatsupdocker from "./whatsupdocker/widget";
 import xteve from "./xteve/widget";
+import yourspotify from "./yourspotify/widget";
 import zabbix from "./zabbix/widget";
 
 const widgets = {
@@ -152,6 +155,7 @@ const widgets = {
   authentik,
   autobrr,
   azuredevops,
+  backrest,
   bazarr,
   beszel,
   caddy,
@@ -282,6 +286,7 @@ const widgets = {
   unifi,
   unifi_console: unifi,
   unmanic,
+  unraid,
   uptimekuma,
   uptimerobot,
   urbackup,
@@ -291,6 +296,7 @@ const widgets = {
   wgeasy,
   whatsupdocker,
   xteve,
+  yourspotify,
   zabbix,
 };
 

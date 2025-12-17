@@ -111,7 +111,7 @@ export async function servicesFromDocker() {
                 };
               }
               let substitutedVal = substituteEnvironmentVars(containerLabels[label]);
-              if (value === "widget.version") {
+              if (value === "widget.version" || /^widgets\[\d+\]\.version$/.test(value)) {
                 substitutedVal = parseInt(substitutedVal, 10);
               }
               shvl.set(constructedService, value, substitutedVal);
@@ -278,6 +278,9 @@ export function cleanServiceGroups(groups) {
           defaultinterval,
           slugs,
           symbols,
+
+          // crowdsec
+          limit24h,
 
           // customapi
           mappings,
@@ -476,6 +479,10 @@ export function cleanServiceGroups(groups) {
           if (defaultinterval) widget.defaultinterval = defaultinterval;
         }
 
+        if (limit24h !== undefined) {
+          widget.limit24h = !!limit24h;
+        }
+
         if (type === "docker") {
           if (server) widget.server = server;
           if (container) widget.container = container;
@@ -584,6 +591,7 @@ export function cleanServiceGroups(groups) {
             "speedtest",
             "wgeasy",
             "grafana",
+            "gluetun",
           ].includes(type)
         ) {
           if (version) widget.version = parseInt(version, 10);

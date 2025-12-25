@@ -97,6 +97,11 @@
         "up": "Up",
         "not_available": "Not Available"
     },
+    "arcane": {
+        "running": "Running",
+        "stopped": "Stopped",
+        "total": "Total"
+    },
     "emby": {
         "playing": "Playing",
         "transcoding": "Transcoding",

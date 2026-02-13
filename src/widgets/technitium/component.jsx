@@ -53,8 +53,8 @@ export default function Component({ service }) {
 
   function toPercent(value, total) {
     return t("common.percent", {
-      value: !Number.isNaN(value / total) ? 100 * (value / total) : 0,
-      maximumFractionDigits: 2,
+      value: !Number.isNaN(value / total) ? Math.round(100 * (value / total)) : 0,
+      maximumFractionDigits: 0,
     });
   }
 

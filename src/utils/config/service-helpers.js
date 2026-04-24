@@ -551,20 +551,11 @@ export function cleanServiceGroups(groups) {
         if (["plex"].includes(type)) {
           if (enableBlocks !== undefined) widget.enableBlocks = JSON.parse(enableBlocks);
           if (enableNowPlaying !== undefined) widget.enableNowPlaying = JSON.parse(enableNowPlaying);
-          if (enableUser !== undefined) { 
+          if (enableUser !== undefined) {
             widget.enableUser = JSON.parse(enableUser)
-          } 
+          }
           else widget.enableUser = false
         }
-<<<<<<< HEAD
-        if (["emby", "jellyfin", "tautulli"].includes(type)) {
-          if (expandOneStreamToTwoRows !== undefined) widget.expandOneStreamToTwoRows = !!JSON.parse(expandOneStreamToTwoRows);
-          if (showEpisodeNumber !== undefined) widget.showEpisodeNumber = !!JSON.parse(showEpisodeNumber);
-          if (enableUser !== undefined) widget.enableUser = !!JSON.parse(enableUser);
-        }
-        if (["tautullihistory", "jellystathistory"].includes(type)) {
-          if (maxItems) widget.maxItems = maxItems;
-=======
         if (["emby", "jellyfin", "tautulli", "tracearr"].includes(type)) {
           if (expandOneStreamToTwoRows !== undefined)
             widget.expandOneStreamToTwoRows = !!JSON.parse(expandOneStreamToTwoRows);
@@ -573,7 +564,6 @@ export function cleanServiceGroups(groups) {
         }
         if (type === "tracearr") {
           if (view !== undefined) widget.view = view;
->>>>>>> origin/main
         }
         if (["sonarr", "radarr"].includes(type)) {
           if (enableQueue !== undefined) widget.enableQueue = JSON.parse(enableQueue);

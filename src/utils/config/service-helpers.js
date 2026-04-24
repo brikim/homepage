@@ -563,7 +563,7 @@ export function cleanServiceGroups(groups) {
           if (enableUser !== undefined) widget.enableUser = !!JSON.parse(enableUser);
         }
         if (["tautullihistory", "jellystathistory"].includes(type)) {
-          if (maxItems !== undefined) widget.maxItems = !!JSON.parse(maxItems);
+          if (maxItems !== undefined) widget.maxItems = JSON.parse(maxItems);
         }
         if (type === "tracearr") {
           if (view !== undefined) widget.view = view;

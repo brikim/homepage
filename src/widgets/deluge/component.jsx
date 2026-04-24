@@ -8,26 +8,26 @@ import useWidgetAPI from "utils/proxy/use-widget-api";
 
 function OwnQueueEntry({ filename, percentage, size, downloadRate }) {
   return (
-      <div className="text-theme-700 dark:text-theme-200 relative h-5 rounded-md bg-theme-200/50 dark:bg-theme-900/20 m-1 px-1 flex">
-        <div
-          className="absolute h-5 rounded-md bg-theme-200 dark:bg-theme-900/40 z-0 -ml-1"
-          style={{
-            width: `${percentage}%`,
-          }}
-        />
-        <div className="text-xs z-10 self-center ml-1 relative h-4 grow mr-1">
-          <div className="absolute w-full whitespace-nowrap text-ellipsis overflow-hidden text-left">{filename}</div>
-        </div>
-        <div className="self-center text-xs flex justify-end mr-2 pl-1 z-10 text-ellipsis overflow-hidden whitespace-nowrap">
-          {downloadRate}
-        </div>
-        <div className="self-center text-xs flex w-12 justify-end mr-1.5 pl-1.5 z-10 text-ellipsis overflow-hidden whitespace-nowrap">
-          {size}
-        </div>
-        <div className="self-center text-xs flex w-8 justify-end mr-1.5 z-10 text-ellipsis overflow-hidden whitespace-nowrap">
-          {`${percentage}%`}
-        </div>
+    <div className="text-theme-700 dark:text-theme-200 relative h-5 rounded-md bg-theme-200/50 dark:bg-theme-900/20 m-1 px-1 flex">
+      <div
+        className="absolute h-5 rounded-md bg-theme-200 dark:bg-theme-900/40 z-0 -ml-1"
+        style={{
+          width: `${percentage}%`,
+        }}
+      />
+      <div className="text-xs z-10 self-center ml-1 relative h-4 grow mr-1">
+        <div className="absolute w-full whitespace-nowrap text-ellipsis overflow-hidden text-left">{filename}</div>
       </div>
+      <div className="self-center text-xs flex justify-end mr-2 pl-1 z-10 text-ellipsis overflow-hidden whitespace-nowrap">
+        {downloadRate}
+      </div>
+      <div className="self-center text-xs flex w-12 justify-end mr-1.5 pl-1.5 z-10 text-ellipsis overflow-hidden whitespace-nowrap">
+        {size}
+      </div>
+      <div className="self-center text-xs flex w-8 justify-end mr-1.5 z-10 text-ellipsis overflow-hidden whitespace-nowrap">
+        {`${percentage}%`}
+      </div>
+    </div>
   );
 }
 
@@ -89,9 +89,9 @@ export default function Component({ service }) {
     <>
       <Container service={service}>
         <Block label="deluge.leech" value={t("common.number", { value: leech })} />
-        <Block label="deluge.download" value={t("common.bibyterate", { value: rateDl })} />
+        <Block label="deluge.download" value={t("common.bibyterate", { value: rateDl })} highlightValue={rateDl} />
         <Block label="deluge.seed" value={t("common.number", { value: completed })} />
-        <Block label="deluge.upload" value={t("common.bibyterate", { value: rateUl })} />
+        <Block label="deluge.upload" value={t("common.bibyterate", { value: rateUl })} highlightValue={rateUl} />
       </Container>
       {widget?.enableLeechProgress &&
         leechTorrents.map((queueEntry) => (
@@ -103,7 +103,7 @@ export default function Component({ service }) {
             key={`${queueEntry.name}-${queueEntry.total_remaining}`}
           />
         ))}
-        {enableQueue &&
+      {enableQueue &&
         torrentDownloads.map((queueEntry) => (
           <OwnQueueEntry
             key={queueEntry.key}

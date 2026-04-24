@@ -28,7 +28,7 @@ export default function Component({ service }) {
 
   const filtered =
     adguardData.num_replaced_safebrowsing + adguardData.num_replaced_safesearch + adguardData.num_replaced_parental;
-  
+
   let latencyType = "second";
   let latency = adguardData.avg_processing_time;
   if (latency < 1) {
@@ -36,11 +36,11 @@ export default function Component({ service }) {
     latency = adguardData.avg_processing_time * 1000;
   }
   latency = latency.toFixed(1);
-  
+
   let blockedValue = `${t("common.number", { value: parseInt(adguardData.num_blocked_filtering, 10) })}`;
   const percentage = (adguardData.num_blocked_filtering / adguardData.num_dns_queries) * 100;
   blockedValue += ` (${t("common.percent", { value: parseFloat(percentage).toPrecision(3) })})`;
-  
+
   return (
     <Container service={service}>
       <Block label="adguard.queries" value={t("common.number", { value: adguardData.num_dns_queries })} />
@@ -48,7 +48,8 @@ export default function Component({ service }) {
       <Block label="adguard.filtered" value={t("common.number", { value: filtered })} />
       <Block
         label="adguard.latency"
-        value={t("common.ms", { value: latency, style: "unit", unit: latencyType })}
+        value={t("common.ms", { value: adguardData.avg_processing_time * 1000, style: "unit", unit: "millisecond" })}
+        highlightValue={adguardData.avg_processing_time * 1000}
       />
     </Container>
   );

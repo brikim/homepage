@@ -312,6 +312,13 @@ describe("utils/config/service-helpers", () => {
               { type: "healthchecks", uuid: "u" },
               { type: "speedtest", bitratePrecision: "3", version: "1" },
               { type: "stocks", watchlist: "AAPL", showUSMarketStatus: true },
+              {
+                type: "tracearr",
+                expandOneStreamToTwoRows: "true",
+                showEpisodeNumber: "true",
+                enableUser: "true",
+                view: "both",
+              },
               { type: "wgeasy", threshold: "10", version: "1" },
               { type: "technitium", range: "24h" },
               { type: "lubelogger", vehicleID: "12" },
@@ -350,8 +357,57 @@ describe("utils/config/service-helpers", () => {
     expect(widgets.find((w) => w.type === "speedtest")).toEqual(
       expect.objectContaining({ bitratePrecision: 3, version: 1 }),
     );
+    expect(widgets.find((w) => w.type === "tracearr")).toEqual(
+      expect.objectContaining({
+        expandOneStreamToTwoRows: true,
+        showEpisodeNumber: true,
+        enableUser: true,
+        view: "both",
+      }),
+    );
     expect(widgets.find((w) => w.type === "jellystat")).toEqual(expect.objectContaining({ days: 7 }));
     expect(widgets.find((w) => w.type === "lubelogger")).toEqual(expect.objectContaining({ vehicleID: 12 }));
+  });
+
+  it("cleanServiceGroups removes calendar integration urls from frontend widget payload", async () => {
+    const mod = await import("./service-helpers");
+    const { cleanServiceGroups } = mod;
+
+    const rawGroups = [
+      {
+        name: "Core",
+        services: [
+          {
+            name: "Calendar",
+            weight: 100,
+            widgets: [
+              {
+                type: "calendar",
+                integrations: [
+                  {
+                    type: "ical",
+                    name: "EPL Fixtures",
+                    url: "https://calendar.google.com/calendar/ical/example/public/basic.ics",
+                    color: "purple",
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+        groups: [],
+      },
+    ];
+
+    const cleaned = cleanServiceGroups(rawGroups);
+    const calendarWidget = cleaned[0].services[0].widgets[0];
+    expect(calendarWidget.integrations).toEqual([
+      {
+        type: "ical",
+        name: "EPL Fixtures",
+        color: "purple",
+      },
+    ]);
   });
 
   it("findGroupByName deep-searches and annotates parent", async () => {

@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import { useTranslation } from "next-i18next";
+import { useTranslation } from "next-i18next/pages";
 import { BsFillPlayFill, BsPauseFill } from "react-icons/bs";
 import Container from "components/services/widget/container";
 import PlatformIcon from "utils/media/platformIcon";
@@ -15,7 +15,7 @@ function generateStreamTitle(session, enableUser, showEpisodeNumber) {
     const season_str = `S${parent_media_index.toString().padStart(2, "0")}`;
     const episode_str = `E${media_index.toString().padStart(2, "0")}`;
     stream_title = `${grandparent_title}: ${season_str} · ${episode_str} - ${title}`;
-  } 
+  }
   else {
     stream_title = full_title;
   }
@@ -35,13 +35,13 @@ function SingleSessionEntry({ session, enableUser, showEpisodeNumber }) {
   return (
     <>
       <div className="text-theme-700 dark:text-theme-200 relative h-5 w-full rounded-md bg-theme-200/50 dark:bg-theme-900/20 mt-1 flex">
-        <PlatformIcon platform={platform.toLowerCase()} opacity="opacity-60"/>
+        <PlatformIcon platform={platform.toLowerCase()} opacity="opacity-60" />
         <div className="text-xs z-10 self-center ml-1 relative w-full h-4 grow mr-2">
           <div className="inline-flex absolute w-full whitespace-nowrap text-ellipsis overflow-hidden" title={stream_title}>
             {stream_title}
           </div>
         </div>
-        <PlayStatusIcon videoDecision={video_decision} audioDecision={audio_decision} transcodeDecision={transcode_decision} opacity="opacity-60"/>
+        <PlayStatusIcon videoDecision={video_decision} audioDecision={audio_decision} transcodeDecision={transcode_decision} opacity="opacity-60" />
       </div>
 
       <div className="text-theme-700 dark:text-theme-200 relative h-5 w-full rounded-md bg-theme-200/50 dark:bg-theme-900/20 mt-1 flex">
@@ -87,9 +87,9 @@ function SessionEntry({ session, enableUser, showEpisodeNumber }) {
   return (
     <div className="text-theme-700 dark:text-theme-200 relative h-5 w-full rounded-md bg-theme-200/50 dark:bg-theme-900/20 mt-1 flex">
       <div className="absolute h-5 rounded-md bg-theme-200 dark:bg-theme-900/25 z-0"
-          style={{
-            width: `${transcodeProgress}%`,
-          }}
+        style={{
+          width: `${transcodeProgress}%`,
+        }}
       />
       <div
         className="absolute h-5 rounded-md bg-theme-200 dark:bg-theme-900/50 z-0"
@@ -105,14 +105,14 @@ function SessionEntry({ session, enableUser, showEpisodeNumber }) {
           <BsFillPlayFill className="inline-block w-4 h-4 cursor-pointer -mt-[1px] mr-1 opacity-80" />
         )}
       </div>
-      <PlatformIcon platform={platform.toLowerCase()} opacity="opacity-60"/>
+      <PlatformIcon platform={platform.toLowerCase()} opacity="opacity-60" />
       <div className="text-xs z-10 self-center ml-1 relative w-full h-4 grow mr-2">
         <div className="absolute w-full whitespace-nowrap text-ellipsis overflow-hidden" title={stream_title}>
           {stream_title}
         </div>
       </div>
       <div className="self-center text-xs flex justify-end mr-1 pl-1 z-10">{MillisecondsToString(view_offset)}</div>
-      <PlayStatusIcon videoDecision={video_decision} audioDecision={audio_decision} transcodeDecision={transcode_decision} opacity="opacity-60"/>
+      <PlayStatusIcon videoDecision={video_decision} audioDecision={audio_decision} transcodeDecision={transcode_decision} opacity="opacity-60" />
     </div>
   );
 }

@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { appWithTranslation } from "next-i18next";
+import { appWithTranslation } from "next-i18next/pages";
 import Head from "next/head";
 import "styles/globals.css";
 import "styles/manrope.css";
@@ -19,7 +19,10 @@ const tailwindSafelist = [
   "backdrop-blur-xs",
   "backdrop-blur-sm",
   "backdrop-blur-md",
+  "backdrop-blur-lg",
   "backdrop-blur-xl",
+  "backdrop-blur-2xl",
+  "backdrop-blur-3xl",
   "backdrop-saturate-0",
   "backdrop-saturate-50",
   "backdrop-saturate-100",

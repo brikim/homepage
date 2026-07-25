@@ -61,7 +61,7 @@ function SingleSessionEntry({ session, enableUser, showEpisodeNumber }) {
   const stream_title = generateStreamTitle(session, enableUser, showEpisodeNumber);
 
   let iconType = "play";
-  if (transcodingValid) {
+  if (videoDecision === "transcode" || audioDecision === "transcode") {
     if (videoDecision === "directplay" || videoDecision === "copy" || hwEncoding) {
       iconType = "cpu";
     }
@@ -121,7 +121,7 @@ function SessionEntry({ session, enableUser, showEpisodeNumber }) {
   const stream_title = generateStreamTitle(session, enableUser, showEpisodeNumber);
 
   let iconType = "play";
-  if (transcodingValid) {
+  if (videoDecision === "transcode" || audioDecision === "transcode") {
     if (videoDecision === "directplay" || videoDecision === "copy" || hwEncoding) {
       iconType = "cpu";
     }

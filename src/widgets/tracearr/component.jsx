@@ -3,6 +3,7 @@ import Block from "components/services/widget/block";
 import Container from "components/services/widget/container";
 import { useTranslation } from "next-i18next/pages";
 import { BsCpu, BsFillCpuFill, BsFillPlayFill, BsPauseFill } from "react-icons/bs";
+import { PiCpu, PiCpuFill } from "react-icons/pi";
 import { MdOutlineSmartDisplay, MdSmartDisplay } from "react-icons/md";
 
 import useWidgetAPI from "utils/proxy/use-widget-api";
@@ -16,14 +17,19 @@ function millisecondsToTime(milliseconds) {
 
 function millisecondsToString(milliseconds) {
   const { hours, minutes, seconds } = millisecondsToTime(milliseconds);
-  const parts = [];
-  if (hours > 0) {
-    parts.push(hours);
-  }
-  parts.push(minutes);
-  parts.push(seconds);
 
-  return parts.map((part) => part.toString().padStart(2, "0")).join(":");
+  let timeVal = "";
+  if (hours > 0) {
+    timeVal = hours.toString();
+    timeVal += ":";
+    timeVal += minutes.toString().padStart(2, "0");
+  }
+  else {
+    timeVal += minutes.toString();
+  }
+  timeVal += ":";
+  timeVal += seconds.toString().padStart(2, "0");
+  return timeVal;
 }
 
 function generateStreamTitle(session, enableUser, showEpisodeNumber) {
@@ -45,9 +51,24 @@ function generateStreamTitle(session, enableUser, showEpisodeNumber) {
 
 function SingleSessionEntry({ session, enableUser, showEpisodeNumber }) {
   const { durationMs, progressMs, state, videoDecision, audioDecision } = session;
-  const progress_percent = durationMs > 0 ? (progressMs / durationMs) * 100 : 0;
 
+  const transcodingValid = session.transcodeInfo != null;
+  const { hwEncoding } = session?.transcodeInfo || {
+    hwEncoding: false
+  };
+
+  const progress_percent = durationMs > 0 ? (progressMs / durationMs) * 100 : 0;
   const stream_title = generateStreamTitle(session, enableUser, showEpisodeNumber);
+
+  let iconType = "play";
+  if (transcodingValid) {
+    if (videoDecision === "directplay" || videoDecision === "copy" || hwEncoding) {
+      iconType = "cpu";
+    }
+    else {
+      iconType = "cpuFilled";
+    }
+  }
 
   return (
     <>
@@ -57,17 +78,10 @@ function SingleSessionEntry({ session, enableUser, showEpisodeNumber }) {
             {stream_title}
           </div>
         </div>
-        <div className="self-center text-xs flex justify-end mr-1.5 pl-1">
-          {videoDecision === "directplay" && audioDecision === "directplay" && (
-            <MdSmartDisplay className="opacity-50" />
-          )}
-          {videoDecision === "copy" && audioDecision === "copy" && <MdOutlineSmartDisplay className="opacity-50" />}
-          {videoDecision !== "copy" &&
-            videoDecision !== "directplay" &&
-            (audioDecision !== "copy" || audioDecision !== "directplay") && <BsFillCpuFill className="opacity-50" />}
-          {(videoDecision === "copy" || videoDecision === "directplay") &&
-            audioDecision !== "copy" &&
-            audioDecision !== "directplay" && <BsCpu className="opacity-50" />}
+        <div className="self-center text-lg flex justify-end pl-0.5">
+          {(iconType === "play") && <MdOutlineSmartDisplay className="opacity-55" />}
+          {(iconType === "cpu") && <PiCpu className="opacity-55" />}
+          {(iconType === "cpuFilled") && <PiCpuFill className="opacity-55" />}
         </div>
       </div>
 
@@ -99,9 +113,22 @@ function SingleSessionEntry({ session, enableUser, showEpisodeNumber }) {
 
 function SessionEntry({ session, enableUser, showEpisodeNumber }) {
   const { durationMs, progressMs, state, videoDecision, audioDecision } = session;
+  const transcodingValid = session.transcodeInfo != null;
+  const { hwEncoding } = session?.transcodeInfo || {
+    hwEncoding: false
+  };
   const progress_percent = durationMs > 0 ? (progressMs / durationMs) * 100 : 0;
-
   const stream_title = generateStreamTitle(session, enableUser, showEpisodeNumber);
+
+  let iconType = "play";
+  if (transcodingValid) {
+    if (videoDecision === "directplay" || videoDecision === "copy" || hwEncoding) {
+      iconType = "cpu";
+    }
+    else {
+      iconType = "cpuFilled";
+    }
+  }
 
   return (
     <div className="text-theme-700 dark:text-theme-200 relative h-5 w-full rounded-md bg-theme-200/50 dark:bg-theme-900/20 mt-1 flex">
@@ -124,17 +151,12 @@ function SessionEntry({ session, enableUser, showEpisodeNumber }) {
           {stream_title}
         </div>
       </div>
-      <div className="self-center text-xs flex justify-end mr-1.5 pl-1 z-10">
-        {videoDecision === "directplay" && audioDecision === "directplay" && <MdSmartDisplay className="opacity-50" />}
-        {videoDecision === "copy" && audioDecision === "copy" && <MdOutlineSmartDisplay className="opacity-50" />}
-        {videoDecision !== "copy" &&
-          videoDecision !== "directplay" &&
-          (audioDecision !== "copy" || audioDecision !== "directplay") && <BsFillCpuFill className="opacity-50" />}
-        {(videoDecision === "copy" || videoDecision === "directplay") &&
-          audioDecision !== "copy" &&
-          audioDecision !== "directplay" && <BsCpu className="opacity-50" />}
-      </div>
       <div className="self-center text-xs flex justify-end mr-2 z-10">{millisecondsToString(progressMs)}</div>
+      <div className="self-center text-lg flex justify-end pl-0.5 z-10">
+        {(iconType === "play") && <MdOutlineSmartDisplay className="opacity-55" />}
+        {(iconType === "cpu") && <PiCpu className="opacity-55" />}
+        {(iconType === "cpuFilled") && <PiCpuFill className="opacity-55" />}
+      </div>
     </div>
   );
 }

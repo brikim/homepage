@@ -1,32 +1,36 @@
 {
+  "version": "0.2.0",
   "configurations": [
     {
-      "name": "Debug homepage",
-      "type": "node",
-      "preLaunchTask": "pnpm install",
+      "name": "Homepage: Debug Server-Side",
+      "type": "node-terminal",
       "request": "launch",
-      "runtimeExecutable": "pnpm",
-      "runtimeArgs": ["run", "dev"],
-      "env": {
-        "LOG_LEVEL": "debug"
-      },
-      "skipFiles": ["<node_internals>/**"],
-      "console": "integratedTerminal",
-      "serverReadyAction":{
-        "pattern": ".*http://localhost:3000.*",
-        "action": "startDebugging",
-        "name": "Launch Chromium",
-        "killOnServerStop": true,
-      }
+      "command": "pnpm dev --inspect"
     },
     {
-      "name": "Launch Chromium",
+      "name": "Homepage: Debug Client-Side",
       "type": "chrome",
       "request": "launch",
-      "url": "http://localhost:3000",
-      "urlFilter": "http://localhost:3000",
-      "webRoot": "${workspaceFolder}",
-      "trace": true
+      "url": "http://localhost:3000"
+    },
+    {
+      "name": "Homepage: Debug Full Stack",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/node_modules/next/dist/bin/next",
+      "runtimeArgs": [
+        "--inspect"
+      ],
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "serverReadyAction": {
+        "action": "debugWithChrome",
+        "killOnServerStop": true,
+        "pattern": "- Local:.+(https?://.+)",
+        "uriFormat": "%s",
+        "webRoot": "${workspaceFolder}"
+      }
     }
   ]
 }

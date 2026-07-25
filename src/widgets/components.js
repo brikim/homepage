@@ -144,6 +144,7 @@ const components = {
   technitium: dynamic(() => import("./technitium/component")),
   tdarr: dynamic(() => import("./tdarr/component")),
   tracearr: dynamic(() => import("./tracearr/component")),
+  tracearrhistory: dynamic(() => import("./tracearrhistory/component")),
   traefik: dynamic(() => import("./traefik/component")),
   transmission: dynamic(() => import("./transmission/component")),
   trilium: dynamic(() => import("./trilium/component")),

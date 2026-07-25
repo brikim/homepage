@@ -134,6 +134,7 @@ import tautullihistory from "./tautullihistory/widget";
 import tdarr from "./tdarr/widget";
 import technitium from "./technitium/widget";
 import tracearr from "./tracearr/widget";
+import tracearrhistory from "./tracearrhistory/widget"
 import traefik from "./traefik/widget";
 import transmission from "./transmission/widget";
 import trilium from "./trilium/widget";
@@ -296,6 +297,7 @@ const widgets = {
   technitium,
   tdarr,
   tracearr,
+  tracearrhistory,
   traefik,
   transmission,
   trilium,

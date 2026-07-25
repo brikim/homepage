@@ -5,7 +5,7 @@ export default function PlatformIcon({ platform, opacity }) {
   return (
     <div className="z-10 self-center ml-1 mr-1 h-3.5">
       <div className="w-4 text-sm z-10 overflow-hidden justify-start">
-        {(platform === "android" || platform === "chromecast") && <BsAndroid2 className={opacity} />}
+        {(platform === "android" || platform === "chromecast" || platform === "android tv") && <BsAndroid2 className={opacity} />}
         {(platform === "apple tv" || platform === "tvos" || platform === "ios" ||
           platform === "ipad" || platform === "iphone" || platform === "osx" ||
           platform === "macos") && <BsApple className={opacity} />}

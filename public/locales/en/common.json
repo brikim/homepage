@@ -199,7 +199,9 @@
         "streams": "Streams",
         "transcodes": "Transcodes",
         "directplay": "Direct Play",
-        "bitrate": "Bitrate"
+        "bitrate": "Bitrate",
+        "no_history": "No History",
+        "connection_error": "Connection Error"
     },
     "tautullihistory": {
         "no_history": "No History"
@@ -945,17 +947,17 @@
         "criticals": "Criticals"
     },
     "ntfy": {
-      "title": "Title",
-      "priority": "Priority",
-      "lastReceived": "Last Received",
-      "message": "Message",
-      "tags": "Tags",
-      "none": "None",
-      "min": "Min",
-      "low": "Low",
-      "default": "Default",
-      "high": "High",
-      "urgent": "Urgent"
+        "title": "Title",
+        "priority": "Priority",
+        "lastReceived": "Last Received",
+        "message": "Message",
+        "tags": "Tags",
+        "none": "None",
+        "min": "Min",
+        "low": "Low",
+        "default": "Default",
+        "high": "High",
+        "urgent": "Urgent"
     },
     "plantit": {
         "events": "Events",

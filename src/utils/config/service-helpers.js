@@ -337,8 +337,11 @@ export function cleanServiceGroups(groups) {
           // glances, customapi, iframe, prometheusmetric
           refreshInterval,
 
-          // tautullihistory, jellystathistory
+          // tautullihistory, jellystathistory, tracearrhistory
           maxItems,
+
+          // tracearrhistory
+          serverId,
 
           // hdhomerun
           tuner,
@@ -562,8 +565,11 @@ export function cleanServiceGroups(groups) {
           if (showEpisodeNumber !== undefined) widget.showEpisodeNumber = !!JSON.parse(showEpisodeNumber);
           if (enableUser !== undefined) widget.enableUser = !!JSON.parse(enableUser);
         }
-        if (["tautullihistory", "jellystathistory"].includes(type)) {
+        if (["tautullihistory", "jellystathistory", "tracearrhistory"].includes(type)) {
           if (maxItems !== undefined) widget.maxItems = maxItems;
+        }
+        if (["tracearrhistory"].includes(type)) {
+          if (serverId !== undefined) widget.serverId = serverId;
         }
         if (type === "tracearr") {
           if (view !== undefined) widget.view = view;

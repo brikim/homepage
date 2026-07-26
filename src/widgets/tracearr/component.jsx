@@ -2,10 +2,9 @@
 import Block from "components/services/widget/block";
 import Container from "components/services/widget/container";
 import { useTranslation } from "next-i18next/pages";
-import { BsCpu, BsFillCpuFill, BsFillPlayFill, BsPauseFill } from "react-icons/bs";
-import { PiCpu, PiCpuFill } from "react-icons/pi";
-import { MdOutlineSmartDisplay, MdSmartDisplay } from "react-icons/md";
+import { BsFillPlayFill, BsPauseFill } from "react-icons/bs";
 
+import { TracearrTranscodeState, TracearrServerIcon } from "utils/media/tracearrUtils";
 import useWidgetAPI from "utils/proxy/use-widget-api";
 
 function millisecondsToTime(milliseconds) {
@@ -34,7 +33,7 @@ function millisecondsToString(milliseconds) {
 
 function generateStreamTitle(session, enableUser, showEpisodeNumber) {
   let stream_title = "";
-  const { mediaType, mediaTitle, showTitle, seasonNumber, episodeNumber, username } = session;
+  const { episodeNumber, mediaTitle, mediaType, seasonNumber, showTitle, username } = session;
 
   if (mediaType === "episode" && showEpisodeNumber) {
     const season_str = `S${seasonNumber.toString().padStart(2, "0")}`;
@@ -50,25 +49,12 @@ function generateStreamTitle(session, enableUser, showEpisodeNumber) {
 }
 
 function SingleSessionEntry({ session, enableUser, showEpisodeNumber }) {
-  const { durationMs, progressMs, state, videoDecision, audioDecision } = session;
-
-  const transcodingValid = session.transcodeInfo != null;
+  const { audioDecision, durationMs, progressMs, serverName, state, videoDecision } = session;
   const { hwEncoding } = session?.transcodeInfo || {
     hwEncoding: false
   };
-
   const progress_percent = durationMs > 0 ? (progressMs / durationMs) * 100 : 0;
   const stream_title = generateStreamTitle(session, enableUser, showEpisodeNumber);
-
-  let iconType = "play";
-  if (videoDecision === "transcode" || audioDecision === "transcode") {
-    if (videoDecision === "directplay" || videoDecision === "copy" || hwEncoding) {
-      iconType = "cpu";
-    }
-    else {
-      iconType = "cpuFilled";
-    }
-  }
 
   return (
     <>
@@ -78,11 +64,7 @@ function SingleSessionEntry({ session, enableUser, showEpisodeNumber }) {
             {stream_title}
           </div>
         </div>
-        <div className="self-center text-lg flex justify-end pl-0.5">
-          {(iconType === "play") && <MdOutlineSmartDisplay className="opacity-55" />}
-          {(iconType === "cpu") && <PiCpu className="opacity-55" />}
-          {(iconType === "cpuFilled") && <PiCpuFill className="opacity-55" />}
-        </div>
+        <TracearrTranscodeState audio={audioDecision} video={videoDecision} hwEncoding={hwEncoding} />
       </div>
 
       <div className="text-theme-700 dark:text-theme-200 relative h-5 w-full rounded-md bg-theme-200/50 dark:bg-theme-900/20 mt-1 flex">
@@ -92,6 +74,7 @@ function SingleSessionEntry({ session, enableUser, showEpisodeNumber }) {
             width: `${progress_percent}%`,
           }}
         />
+        {serverName && <TracearrServerIcon serverName={serverName} opacity="opacity-70" />}
         <div className="text-xs z-10 self-center ml-1">
           {state === "paused" && (
             <BsPauseFill className="inline-block w-4 h-4 cursor-pointer -mt-[1px] mr-1 opacity-80" />
@@ -112,23 +95,12 @@ function SingleSessionEntry({ session, enableUser, showEpisodeNumber }) {
 }
 
 function SessionEntry({ session, enableUser, showEpisodeNumber }) {
-  const { durationMs, progressMs, state, videoDecision, audioDecision } = session;
-  const transcodingValid = session.transcodeInfo != null;
+  const { audioDecision, durationMs, progressMs, serverName, state, videoDecision } = session;
   const { hwEncoding } = session?.transcodeInfo || {
     hwEncoding: false
   };
   const progress_percent = durationMs > 0 ? (progressMs / durationMs) * 100 : 0;
   const stream_title = generateStreamTitle(session, enableUser, showEpisodeNumber);
-
-  let iconType = "play";
-  if (videoDecision === "transcode" || audioDecision === "transcode") {
-    if (videoDecision === "directplay" || videoDecision === "copy" || hwEncoding) {
-      iconType = "cpu";
-    }
-    else {
-      iconType = "cpuFilled";
-    }
-  }
 
   return (
     <div className="text-theme-700 dark:text-theme-200 relative h-5 w-full rounded-md bg-theme-200/50 dark:bg-theme-900/20 mt-1 flex">
@@ -138,6 +110,7 @@ function SessionEntry({ session, enableUser, showEpisodeNumber }) {
           width: `${progress_percent}%`,
         }}
       />
+      {serverName && <TracearrServerIcon serverName={serverName} opacity="opacity-70" />}
       <div className="text-xs z-10 self-center ml-1">
         {state === "paused" && (
           <BsPauseFill className="inline-block w-4 h-4 cursor-pointer -mt-[1px] mr-1 opacity-80" />
@@ -151,12 +124,8 @@ function SessionEntry({ session, enableUser, showEpisodeNumber }) {
           {stream_title}
         </div>
       </div>
-      <div className="self-center text-xs flex justify-end mr-2 z-10">{millisecondsToString(progressMs)}</div>
-      <div className="self-center text-lg flex justify-end pl-0.5 z-10">
-        {(iconType === "play") && <MdOutlineSmartDisplay className="opacity-55" />}
-        {(iconType === "cpu") && <PiCpu className="opacity-55" />}
-        {(iconType === "cpuFilled") && <PiCpuFill className="opacity-55" />}
-      </div>
+      <div className="self-center text-xs flex justify-end mr-0.5 z-10">{millisecondsToString(progressMs)}</div>
+      <TracearrTranscodeState audio={audioDecision} video={videoDecision} hwEncoding={hwEncoding} />
     </div>
   );
 }

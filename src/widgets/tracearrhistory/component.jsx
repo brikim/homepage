@@ -3,12 +3,11 @@ import { useTranslation } from "next-i18next/pages";
 import { DateTime } from "luxon";
 import { useState, useMemo } from "react";
 import { BiCircle, BiSolidCircle, BiSolidCircleHalf, BiSolidCircleQuarter, BiSolidCircleThreeQuarter } from "react-icons/bi";
-import { SiPlex, SiEmby, SiJellyfin } from "react-icons/si";
 import classNames from "classnames";
 import Container from "components/services/widget/container";
 import PlatformIcon from "utils/media/platformIcon";
-import PlayStatusIcon from "utils/media/playStatusIcon";
 
+import { TracearrServerIcon, TracearrTranscodeState } from "utils/media/tracearrUtils";
 import useWidgetAPI from "utils/proxy/use-widget-api";
 
 function secondsToTime(secondsValue) {
@@ -50,39 +49,7 @@ function RecordEntry({ record }) {
   }
 
   const playDate = DateTime.fromISO(startedAt)
-
-  let video_decision = "";
-  if (videoDecision === "directplay") {
-    video_decision = "direct play";
-  } else {
-    video_decision = videoDecision;
-  }
-
-  let audio_decision = "";
-  if (audioDecision === "directplay") {
-    audio_decision = "direct play";
-  } else {
-    audio_decision = audioDecision;
-  }
-
-  let transcode_decision = "";
-  if (videoDecision === "directplay" && audioDecision === "directplay") {
-    transcode_decision = "direct play";
-  } else if (videoDecision !== "transcode") {
-    transcode_decision = "copy";
-  }
-
   const extraInfo = `${product} - ${player}`;
-
-  const lower_server_name = serverName.toLowerCase();
-  let server_type = "";
-  if (lower_server_name.includes("plex")) {
-    server_type = "plex";
-  } else if (lower_server_name.includes("emby")) {
-    server_type = "emby";
-  } else if (lower_server_name.includes("jellyfin")) {
-    server_type = "jellyfin";
-  }
 
   let watched_status = null;
   const percent = durationMs / totalDurationMs;
@@ -108,15 +75,7 @@ function RecordEntry({ record }) {
         <div className="text-xs z-10 self-center ml-1 mr-1 h-4 grow">
           <div className="w-11 z-10 self-center overflow-hidden justify-start">{playDate.setLocale(i18n.language).toLocaleString({ month: "short", day: "numeric" })}</div>
         </div>
-        {server_type &&
-          <div className="z-10 self-center ml-1 mr-1 h-3.5">
-            <div className="w-4 text-base z-10 overflow-hidden justify-start">
-              {(server_type === "plex") && <SiPlex className="opacity-70" />}
-              {(server_type === "emby") && <SiEmby className="opacity-70" />}
-              {(server_type === "jellyfin") && <SiJellyfin className="opacity-70" />}
-            </div>
-          </div>
-        }
+        {serverName && <TracearrServerIcon serverName={serverName} opacity="opacity-70" />}
         {platform && <PlatformIcon platform={platform.toLowerCase()} opacity="opacity-70" />}
         <div className="text-xs z-10 self-center ml-2 h-4 grow mr-1">
           <div className="w-16 z-10 self-center overflow-hidden justify-start">{user}</div>
@@ -137,7 +96,7 @@ function RecordEntry({ record }) {
             onMouseLeave={() => setHover(false)}
             key={id}>
             <div className="w-5 self-center justify-start">
-              <PlayStatusIcon videoDecision={video_decision} audioDecision={audio_decision} transcodeDecision={transcode_decision} opacity="opacity-70" />
+              <TracearrTranscodeState audio={audioDecision} video={videoDecision} hwEncoding={false} />
             </div>
             <div className="self-center ml-1 whitespace-nowrap text-ellipsis overflow-hidden">{extraInfo}</div>
             <div className="grow " />

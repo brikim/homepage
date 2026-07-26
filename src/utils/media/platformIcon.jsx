@@ -8,8 +8,8 @@ export default function PlatformIcon({ platform, opacity }) {
         {(platform === "android" || platform === "chromecast" || platform === "android tv") && <BsAndroid2 className={opacity} />}
         {(platform === "apple tv" || platform === "tvos" || platform === "ios" ||
           platform === "ipad" || platform === "iphone" || platform === "osx" ||
-          platform === "macos") && <BsApple className={opacity} />}
-        {platform === "chrome" && <BsBrowserChrome className={opacity} />}
+          platform === "macos" || platform === "apple") && <BsApple className={opacity} />}
+        {(platform === "chrome" || platform === "web") && <BsBrowserChrome className={opacity} />}
         {platform === "firefox" && <BsBrowserFirefox className={opacity} />}
         {platform === "linux" && <SiLinux className={opacity} />}
         {(platform === "microsoft edge" || platform === "internet explorer") && <BsBrowserEdge className={opacity} />}

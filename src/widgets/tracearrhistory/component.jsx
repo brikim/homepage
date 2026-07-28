@@ -37,7 +37,7 @@ function secondsToString(secondsValue) {
 function RecordEntry({ record }) {
   const [hover, setHover] = useState(false);
   const { i18n } = useTranslation();
-  const { id, mediaTitle, platform, product, player, startedAt, serverName, durationMs, totalDurationMs, showTitle, videoDecision, audioDecision } = record;
+  const { id, mediaTitle, platform, product, player, startedAt, serverName, durationMs, totalDurationMs, showTitle, stoppedAt, videoDecision, audioDecision } = record;
   const user = record.user.username;
 
   let streamTitle = ""
@@ -48,7 +48,7 @@ function RecordEntry({ record }) {
     streamTitle = mediaTitle;
   }
 
-  const playDate = DateTime.fromISO(startedAt)
+  const playDate = DateTime.fromISO(stoppedAt ?? startedAt);
   const extraInfo = `${product} - ${player}`;
 
   let watched_status = null;
@@ -135,13 +135,13 @@ export default function Component({ service }) {
     params = useMemo(() => {
       const constructedParams = {
         serverId: "",
+        state: "stopped",
         page: 1,
         pageSize: 0,
-        state: "stopped",
       };
 
-      constructedParams.serverId = serverId
-      constructedParams.pageSize = maxItems;
+      constructedParams.serverId = serverId;
+      constructedParams.pageSize = maxItems + 10;
 
       return constructedParams;
     }, [serverId, maxItems]);
@@ -149,18 +149,18 @@ export default function Component({ service }) {
     api = "history_noserver";
     params = useMemo(() => {
       const constructedParams = {
+        state: "stopped",
         page: 1,
         pageSize: 0,
-        state: "stopped",
       };
 
-      constructedParams.pageSize = maxItems;
+      constructedParams.pageSize = maxItems + 10;
 
       return constructedParams;
     }, [maxItems]);
   }
 
-  const { data: historyData, error: historyError } = useWidgetAPI(widget, api, { ...params });
+  const { data: historyData, error: historyError } = useWidgetAPI(widget, api, params);
 
   if (historyError) {
     return <Container service={service} error={historyError ?? { message: t("tracearr.connection_error") }} />;
@@ -178,12 +178,15 @@ export default function Component({ service }) {
 
   return (
     <div className="flex flex-col pb-1 mx-1">
-      {historyData.data.map((record) => (
-        <RecordEntry
-          key={`record-entry-${record.id}`}
-          record={record}
-        />
-      ))}
+      {historyData?.data
+        ?.filter((record) => record.state === "stopped") // Keep only stopped items
+        .slice(0, maxItems)                              // Keep only the first maxItems .map((record) => (
+        .map((record) => (
+          <RecordEntry
+            key={`record-entry-${record.id}`}
+            record={record}
+          />
+        ))}
     </div>
   );
 }

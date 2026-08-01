@@ -7,7 +7,7 @@ import classNames from "classnames";
 import Container from "components/services/widget/container";
 import PlatformIcon from "utils/media/platformIcon";
 
-import { TracearrServerIcon, TracearrTranscodeState } from "utils/media/tracearrUtils";
+import { TracearrServerIcon, TracearrTranscodeState, TracearrWebPlatform } from "utils/media/tracearrUtils";
 import useWidgetAPI from "utils/proxy/use-widget-api";
 
 function secondsToTime(secondsValue) {
@@ -51,6 +51,11 @@ function RecordEntry({ record }) {
   const playDate = DateTime.fromISO(stoppedAt ?? startedAt);
   const extraInfo = `${product} - ${player}`;
 
+  let actualPlatform = platform;
+  if (platform.toLowerCase() == "web") {
+    actualPlatform = TracearrWebPlatform({ player: player });
+  }
+
   let watched_status = null;
   const percent = durationMs / totalDurationMs;
   if (percent >= 0.1 && percent < 0.35) {
@@ -76,7 +81,7 @@ function RecordEntry({ record }) {
           <div className="w-11 z-10 self-center overflow-hidden justify-start">{playDate.setLocale(i18n.language).toLocaleString({ month: "short", day: "numeric" })}</div>
         </div>
         {serverName && <TracearrServerIcon serverName={serverName} opacity="opacity-70" />}
-        {platform && <PlatformIcon platform={platform.toLowerCase()} opacity="opacity-70" />}
+        {platform && <PlatformIcon platform={actualPlatform.toLowerCase()} opacity="opacity-70" />}
         <div className="text-xs z-10 self-center ml-2 h-4 grow mr-1">
           <div className="w-16 z-10 self-center overflow-hidden justify-start">{user}</div>
         </div>

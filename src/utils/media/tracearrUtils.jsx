@@ -58,3 +58,18 @@ export function TracearrTranscodeState({ audio, video, hwEncoding }) {
     </div>
   );
 }
+
+export function TracearrWebPlatform({ player }) {
+  const lower_player_name = player.toLowerCase();
+  let web_player_name = lower_player_name;
+  if (lower_player_name.includes("firefox")) {
+    web_player_name = "firefox";
+  } else if (lower_player_name.includes("chrome")) {
+    web_player_name = "chrome";
+  } else if (lower_player_name.includes("safari")) {
+    web_player_name = "safari";
+  } else if (lower_player_name.includes("microsoft edge")) {
+    web_player_name = "microsoft edge";
+  }
+  return web_player_name;
+}

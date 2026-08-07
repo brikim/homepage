@@ -15,21 +15,7 @@ export function DecisionType(audio, video, hwEncoding) {
   return iconType;
 }
 
-function ServerType(serverName) {
-  const lower_server_name = serverName.toLowerCase();
-  let server_type = "";
-  if (lower_server_name.includes("plex")) {
-    server_type = "plex";
-  } else if (lower_server_name.includes("emby")) {
-    server_type = "emby";
-  } else if (lower_server_name.includes("jellyfin")) {
-    server_type = "jellyfin";
-  }
-  return server_type;
-}
-
-export function TracearrServerIcon({ serverName, opacity }) {
-  const server_type = ServerType(serverName);
+export function TracearrServerIcon({ server_type, opacity }) {
   return (
     <div className="self-center text-lg flex justify-end pl-0.5">
       {(server_type === "plex") && <SiPlex className={opacity} />}

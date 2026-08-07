@@ -37,36 +37,24 @@ function secondsToString(secondsValue) {
 function RecordEntry({ record }) {
   const [hover, setHover] = useState(false);
   const { i18n } = useTranslation();
-  const { id, mediaTitle, platform, product, player, startedAt, serverName, durationMs, totalDurationMs, showTitle, stoppedAt, videoDecision, audioDecision } = record;
+
+  const { id, media_title, platform, product, player, started_at, duration_ms, percent_complete, showTitle, stopped_at, video_decision, audio_decision, server_type } = record;
   const user = record.user.username;
 
   let streamTitle = ""
   if (showTitle) {
-    streamTitle = `${showTitle} - ${mediaTitle}`;
+    streamTitle = `${showTitle} - ${media_title}`;
   }
   else {
-    streamTitle = mediaTitle;
+    streamTitle = media_title;
   }
 
-  const playDate = DateTime.fromISO(stoppedAt ?? startedAt);
+  const playDate = DateTime.fromISO(stopped_at ?? started_at);
   const extraInfo = `${product} - ${player}`;
 
   let actualPlatform = platform;
   if (platform.toLowerCase() == "web") {
     actualPlatform = TracearrWebPlatform({ player: player });
-  }
-
-  let watched_status = null;
-  const percent = durationMs / totalDurationMs;
-  if (percent >= 0.1 && percent < 0.35) {
-    watched_status = 0.25;
-  } else if (percent >= 0.35 && percent < 0.65) {
-    watched_status = 0.5;
-  } else if (percent >= 0.65 && percent < 0.9) {
-    watched_status = 0.75;
-  }
-  else if (percent >= 0.9) {
-    watched_status = 1;
   }
 
   // Requires setHover in each section since hover changes the right hand side
@@ -80,8 +68,8 @@ function RecordEntry({ record }) {
         <div className="text-xs z-10 self-center ml-1 mr-1 h-4 grow">
           <div className="w-11 z-10 self-center overflow-hidden justify-start">{playDate.setLocale(i18n.language).toLocaleString({ month: "short", day: "numeric" })}</div>
         </div>
-        {serverName && <TracearrServerIcon serverName={serverName} opacity="opacity-70" />}
-        {platform && <PlatformIcon platform={actualPlatform.toLowerCase()} opacity="opacity-70" />}
+        {server_type && <TracearrServerIcon server_type={server_type} opacity="opacity-70" />}
+        {actualPlatform && <PlatformIcon platform={actualPlatform.toLowerCase()} opacity="opacity-70" />}
         <div className="text-xs z-10 self-center ml-2 h-4 grow mr-1">
           <div className="w-16 z-10 self-center overflow-hidden justify-start">{user}</div>
         </div>
@@ -101,21 +89,21 @@ function RecordEntry({ record }) {
             onMouseLeave={() => setHover(false)}
             key={id}>
             <div className="w-5 self-center justify-start">
-              <TracearrTranscodeState audio={audioDecision} video={videoDecision} hwEncoding={false} />
+              <TracearrTranscodeState audio={audio_decision} video={video_decision} hwEncoding={false} />
             </div>
             <div className="self-center ml-1 whitespace-nowrap text-ellipsis overflow-hidden">{extraInfo}</div>
             <div className="grow " />
-            <div className="self-center text-xs justify-end mr-0.5 pl-1">{durationMs && secondsToString(durationMs / 1000)}</div>
+            <div className="self-center text-xs justify-end mr-0.5 pl-1">{duration_ms && secondsToString(duration_ms / 1000)}</div>
             <div className="self-center flex justify-end mr-0.5 pl-0.5">
               <div className="text-base"><BiCircle className="opacity-40" /></div>
               <div className="absolute self-center">
-                {watched_status === 0.25 &&
+                {(percent_complete >= 10.0 && percent_complete < 35.0) &&
                   <div className="text-xs mr-0.5"><BiSolidCircleQuarter className="opacity-60" /></div>}
-                {watched_status === 0.5 &&
+                {(percent_complete >= 35.0 && percent_complete < 65.0) &&
                   <div className="text-xs mr-0.5"><BiSolidCircleHalf className="opacity-60" /></div>}
-                {watched_status === 0.75 &&
+                {(percent_complete >= 65.0 && percent_complete < 85.0) &&
                   <div className="text-xs mr-0.5"><BiSolidCircleThreeQuarter className="opacity-60" /></div>}
-                {watched_status === 1 &&
+                {percent_complete >= 85.0 &&
                   <div className="text-xs mr-0.5"><BiSolidCircle className="opacity-60" /></div>}
               </div>
             </div>

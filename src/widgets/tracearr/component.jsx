@@ -33,27 +33,27 @@ function millisecondsToString(milliseconds) {
 
 function generateStreamTitle(session, enableUser, showEpisodeNumber) {
   let stream_title = "";
-  const { episodeNumber, mediaTitle, mediaType, seasonNumber, showTitle, username } = session;
+  const { episodeNumber, media_title, media_type, season_number, show_title, username } = session;
 
-  if (mediaType === "episode" && showEpisodeNumber) {
-    const season_str = `S${seasonNumber.toString().padStart(2, "0")}`;
+  if (media_type === "episode" && showEpisodeNumber) {
+    const season_str = `S${season_number.toString().padStart(2, "0")}`;
     const episode_str = `E${episodeNumber.toString().padStart(2, "0")}`;
-    stream_title = `${showTitle}: ${season_str} · ${episode_str} - ${mediaTitle}`;
-  } else if (mediaType === "episode") {
-    stream_title = `${showTitle} - ${mediaTitle}`;
+    stream_title = `${showTitle}: ${season_str} · ${episode_str} - ${media_title}`;
+  } else if (media_type === "episode") {
+    stream_title = `${show_title} - ${media_title}`;
   } else {
-    stream_title = mediaTitle;
+    stream_title = media_title;
   }
 
   return enableUser ? `${stream_title} (${username})` : stream_title;
 }
 
 function SingleSessionEntry({ session, enableUser, showEpisodeNumber }) {
-  const { audioDecision, durationMs, progressMs, serverName, state, videoDecision } = session;
+  const { audio_decision, duration_ms, progress_ms, server_type, state, video_decision } = session;
   const { hwEncoding } = session?.transcodeInfo || {
     hwEncoding: false
   };
-  const progress_percent = durationMs > 0 ? (progressMs / durationMs) * 100 : 0;
+  const percent_complete = duration_ms > 0 ? (progress_ms / duration_ms) * 100 : 0;
   const stream_title = generateStreamTitle(session, enableUser, showEpisodeNumber);
 
   return (
@@ -64,17 +64,17 @@ function SingleSessionEntry({ session, enableUser, showEpisodeNumber }) {
             {stream_title}
           </div>
         </div>
-        <TracearrTranscodeState audio={audioDecision} video={videoDecision} hwEncoding={hwEncoding} />
+        <TracearrTranscodeState audio={audio_decision} video={video_decision} hwEncoding={hwEncoding} />
       </div>
 
       <div className="text-theme-700 dark:text-theme-200 relative h-5 w-full rounded-md bg-theme-200/50 dark:bg-theme-900/20 mt-1 flex">
         <div
           className="absolute h-5 rounded-md bg-theme-200 dark:bg-theme-900/40 z-0"
           style={{
-            width: `${progress_percent}%`,
+            width: `${percent_complete}%`,
           }}
         />
-        {serverName && <TracearrServerIcon serverName={serverName} opacity="opacity-70" />}
+        {server_type && <TracearrServerIcon server_type={server_type} opacity="opacity-70" />}
         <div className="text-xs z-10 self-center ml-1">
           {state === "paused" && (
             <BsPauseFill className="inline-block w-4 h-4 cursor-pointer -mt-[1px] mr-1 opacity-80" />
@@ -85,9 +85,9 @@ function SingleSessionEntry({ session, enableUser, showEpisodeNumber }) {
         </div>
         <div className="grow " />
         <div className="self-center text-xs flex justify-end mr-2 z-10">
-          {millisecondsToString(progressMs)}
+          {millisecondsToString(progress_ms)}
           <span className="mx-0.5 text-[8px]">/</span>
-          {millisecondsToString(durationMs)}
+          {millisecondsToString(duration_ms)}
         </div>
       </div>
     </>
@@ -95,11 +95,11 @@ function SingleSessionEntry({ session, enableUser, showEpisodeNumber }) {
 }
 
 function SessionEntry({ session, enableUser, showEpisodeNumber }) {
-  const { audioDecision, durationMs, progressMs, serverName, state, videoDecision } = session;
+  const { audio_decision, duration_ms, progress_ms, server_type, state, video_decision } = session;
   const { hwEncoding } = session?.transcodeInfo || {
     hwEncoding: false
   };
-  const progress_percent = durationMs > 0 ? (progressMs / durationMs) * 100 : 0;
+  const percent_complete = duration_ms > 0 ? (progress_ms / duration_ms) * 100 : 0;
   const stream_title = generateStreamTitle(session, enableUser, showEpisodeNumber);
 
   return (
@@ -107,10 +107,10 @@ function SessionEntry({ session, enableUser, showEpisodeNumber }) {
       <div
         className="absolute h-5 rounded-md bg-theme-200 dark:bg-theme-900/40 z-0"
         style={{
-          width: `${progress_percent}%`,
+          width: `${percent_complete}%`,
         }}
       />
-      {serverName && <TracearrServerIcon serverName={serverName} opacity="opacity-70" />}
+      {server_type && <TracearrServerIcon server_type={server_type} opacity="opacity-70" />}
       <div className="text-xs z-10 self-center ml-1">
         {state === "paused" && (
           <BsPauseFill className="inline-block w-4 h-4 cursor-pointer -mt-[1px] mr-1 opacity-80" />
@@ -124,8 +124,8 @@ function SessionEntry({ session, enableUser, showEpisodeNumber }) {
           {stream_title}
         </div>
       </div>
-      <div className="self-center text-xs flex justify-end mr-0.5 z-10">{millisecondsToString(progressMs)}</div>
-      <TracearrTranscodeState audio={audioDecision} video={videoDecision} hwEncoding={hwEncoding} />
+      <div className="self-center text-xs flex justify-end mr-0.5 z-10">{millisecondsToString(progress_ms)}</div>
+      <TracearrTranscodeState audio={audio_decision} video={video_decision} hwEncoding={hwEncoding} />
     </div>
   );
 }
@@ -135,8 +135,8 @@ function SummaryView({ service, summary, t }) {
     <Container service={service}>
       <Block label="tracearr.streams" value={t("common.number", { value: summary.total })} />
       <Block label="tracearr.transcodes" value={t("common.number", { value: summary.transcodes })} />
-      <Block label="tracearr.directplay" value={t("common.number", { value: summary.directPlays })} />
-      <Block label="tracearr.bitrate" value={summary.totalBitrate} />
+      <Block label="tracearr.directplay" value={t("common.number", { value: summary.direct_plays })} />
+      <Block label="tracearr.bitrate" value={summary.total_bitrate} />
     </Container>
   );
 }
@@ -224,17 +224,16 @@ export default function Component({ service }) {
     );
   }
 
-  const playing = activityData.data.sort((a, b) => a.progressMs - b.progressMs);
-  const { summary } = activityData;
+  const playing = activityData.data.sort((a, b) => a.progress_ms - b.progress_ms);
 
   if (view === "summary") {
-    return <SummaryView service={service} summary={summary} t={t} />;
+    return <SummaryView service={service} summary={activityData.summary} t={t} />;
   }
 
   if (view === "both") {
     return (
       <>
-        <SummaryView service={service} summary={summary} t={t} />
+        <SummaryView service={service} summary={activityData.summary} t={t} />
         <DetailsView
           playing={playing}
           enableUser={enableUser}

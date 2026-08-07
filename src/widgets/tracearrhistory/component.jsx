@@ -38,12 +38,12 @@ function RecordEntry({ record }) {
   const [hover, setHover] = useState(false);
   const { i18n } = useTranslation();
 
-  const { id, media_title, platform, product, player, started_at, duration_ms, percent_complete, showTitle, stopped_at, video_decision, audio_decision, server_type } = record;
+  const { id, media_title, platform, product, player, started_at, duration_ms, percent_complete, show_title, stopped_at, video_decision, audio_decision, server_type } = record;
   const user = record.user.username;
 
   let streamTitle = ""
-  if (showTitle) {
-    streamTitle = `${showTitle} - ${media_title}`;
+  if (show_title) {
+    streamTitle = `${show_title} - ${media_title}`;
   }
   else {
     streamTitle = media_title;

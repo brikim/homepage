@@ -50,11 +50,15 @@ function generateStreamTitle(session, enableUser, showEpisodeNumber) {
 
 function SingleSessionEntry({ session, enableUser, showEpisodeNumber }) {
   const { audio_decision, duration_ms, progress_ms, server_type, state, video_decision } = session;
-  const { hwEncoding } = session?.transcodeInfo || {
-    hwEncoding: false
-  };
+  const hwEncoding = Boolean(session?.transcode_info?.hwEncoding);
+  const transcodeMaxOffsetAvailable = session?.transcode_info?.maxOffsetAvailable;
   const percent_complete = duration_ms > 0 ? (progress_ms / duration_ms) * 100 : 0;
   const stream_title = generateStreamTitle(session, enableUser, showEpisodeNumber);
+
+  let transcodeProgress = percent_complete;
+  if ((video_decision === "transcode" || audio_decision === "transcode") && transcodeMaxOffsetAvailable) {
+    transcodeProgress = ((transcodeMaxOffsetAvailable * 1000) / duration_ms) * 100;
+  }
 
   return (
     <>
@@ -68,8 +72,12 @@ function SingleSessionEntry({ session, enableUser, showEpisodeNumber }) {
       </div>
 
       <div className="text-theme-700 dark:text-theme-200 relative h-5 w-full rounded-md bg-theme-200/50 dark:bg-theme-900/20 mt-1 flex">
-        <div
-          className="absolute h-5 rounded-md bg-theme-200 dark:bg-theme-900/40 z-0"
+        <div className="absolute h-5 rounded-md bg-theme-200 dark:bg-theme-900/25 z-0"
+          style={{
+            width: `${transcodeProgress}%`,
+          }}
+        />
+        <div className="absolute h-5 rounded-md bg-theme-200 dark:bg-theme-900/40 z-0"
           style={{
             width: `${percent_complete}%`,
           }}
@@ -96,14 +104,23 @@ function SingleSessionEntry({ session, enableUser, showEpisodeNumber }) {
 
 function SessionEntry({ session, enableUser, showEpisodeNumber }) {
   const { audio_decision, duration_ms, progress_ms, server_type, state, video_decision } = session;
-  const { hwEncoding } = session?.transcodeInfo || {
-    hwEncoding: false
-  };
+  const hwEncoding = Boolean(session?.transcode_info?.hwEncoding);
+  const transcodeMaxOffsetAvailable = session?.transcode_info?.maxOffsetAvailable;
   const percent_complete = duration_ms > 0 ? (progress_ms / duration_ms) * 100 : 0;
   const stream_title = generateStreamTitle(session, enableUser, showEpisodeNumber);
 
+  let transcodeProgress = percent_complete;
+  if ((video_decision === "transcode" || audio_decision === "transcode") && transcodeMaxOffsetAvailable) {
+    transcodeProgress = ((transcodeMaxOffsetAvailable * 1000) / duration_ms) * 100;
+  }
+
   return (
     <div className="text-theme-700 dark:text-theme-200 relative h-5 w-full rounded-md bg-theme-200/50 dark:bg-theme-900/20 mt-1 flex">
+      <div className="absolute h-5 rounded-md bg-theme-200 dark:bg-theme-900/25 z-0"
+        style={{
+          width: `${transcodeProgress}%`,
+        }}
+      />
       <div
         className="absolute h-5 rounded-md bg-theme-200 dark:bg-theme-900/40 z-0"
         style={{

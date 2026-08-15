@@ -39,6 +39,7 @@ function RecordEntry({ record }) {
   const { i18n } = useTranslation();
 
   const { id, media_title, platform, product, player, started_at, duration_ms, percent_complete, show_title, stopped_at, video_decision, audio_decision, server_type } = record;
+  const hwEncoding = Boolean(record?.transcode_info?.hwEncoding);
   const user = record.user.username;
 
   let streamTitle = ""
@@ -89,7 +90,7 @@ function RecordEntry({ record }) {
             onMouseLeave={() => setHover(false)}
             key={id}>
             <div className="w-5 self-center justify-start">
-              <TracearrTranscodeState audio={audio_decision} video={video_decision} hwEncoding={false} />
+              <TracearrTranscodeState audio={audio_decision} video={video_decision} hwEncoding={hwEncoding} />
             </div>
             <div className="self-center ml-1 whitespace-nowrap text-ellipsis overflow-hidden">{extraInfo}</div>
             <div className="grow " />

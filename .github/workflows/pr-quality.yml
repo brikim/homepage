@@ -2,7 +2,6 @@ name: PR Quality
 
 permissions:
   contents: read
-  issues: read
   pull-requests: write
 
 on:
@@ -21,3 +20,5 @@ jobs:
             This pull request was automatically closed because it matched multiple low-quality or automated-PR signals.
           require-pr-template: true
           optional-pr-template-sections: 'Checklist:'
+          blocked-terms: |
+            ASLOP-PR-VERIFY

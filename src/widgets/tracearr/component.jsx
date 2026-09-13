@@ -1,10 +1,9 @@
-/* eslint-disable camelcase */
-import Block from "components/services/widget/block";
-import Container from "components/services/widget/container";
 import { useTranslation } from "next-i18next/pages";
 import { BsFillPlayFill, BsPauseFill } from "react-icons/bs";
 
 import { TracearrTranscodeState, TracearrServerIcon } from "utils/media/tracearrUtils";
+import Block from "components/services/widget/block";
+import Container from "components/services/widget/container";
 import useWidgetAPI from "utils/proxy/use-widget-api";
 
 function millisecondsToTime(milliseconds) {
@@ -241,7 +240,7 @@ export default function Component({ service }) {
     );
   }
 
-  const playing = activityData.data.sort((a, b) => a.progress_ms - b.progress_ms);
+  const playing = [...activityData.data].sort((a, b) => a.progress_ms - b.progress_ms);
 
   if (view === "summary") {
     return <SummaryView service={service} summary={activityData.summary} t={t} />;

@@ -5,6 +5,8 @@ import { MdOutlineSmartDisplay } from "react-icons/md";
 import Block from "components/services/widget/block";
 import Container from "components/services/widget/container";
 
+import Block from "components/services/widget/block";
+import Container from "components/services/widget/container";
 import { getURLSearchParams } from "utils/proxy/api-helpers";
 import useWidgetAPI from "utils/proxy/use-widget-api";
 

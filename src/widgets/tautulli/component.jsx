@@ -6,6 +6,7 @@ import PlatformIcon from "utils/media/platformIcon";
 import PlayStatusIcon from "utils/media/playStatusIcon";
 import MillisecondsToString from "utils/media/timeToString"
 
+import Container from "components/services/widget/container";
 import useWidgetAPI from "utils/proxy/use-widget-api";
 
 function generateStreamTitle(session, enableUser, showEpisodeNumber) {
@@ -149,7 +150,7 @@ export default function Component({ service }) {
     );
   }
 
-  const playing = activityData.response.data.sessions.sort((a, b) => {
+  const playing = [...activityData.response.data.sessions].sort((a, b) => {
     if (a.view_offset > b.view_offset) {
       return 1;
     }

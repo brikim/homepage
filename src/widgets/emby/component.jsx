@@ -2,8 +2,6 @@ import { useTranslation } from "next-i18next/pages";
 import { BsVolumeMuteFill, BsFillPlayFill, BsPauseFill } from "react-icons/bs";
 import { PiCpu, PiCpuFill } from "react-icons/pi";
 import { MdOutlineSmartDisplay } from "react-icons/md";
-import Block from "components/services/widget/block";
-import Container from "components/services/widget/container";
 
 import Block from "components/services/widget/block";
 import Container from "components/services/widget/container";

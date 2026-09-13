@@ -1,7 +1,6 @@
 /* eslint-disable camelcase */
 import { useTranslation } from "next-i18next/pages";
 import { BsFillPlayFill, BsPauseFill } from "react-icons/bs";
-import Container from "components/services/widget/container";
 import PlatformIcon from "utils/media/platformIcon";
 import PlayStatusIcon from "utils/media/playStatusIcon";
 import MillisecondsToString from "utils/media/timeToString"
